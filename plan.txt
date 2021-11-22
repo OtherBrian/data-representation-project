@@ -1,0 +1,33 @@
+Basic requirements
+
+1. A basic Flask server that has a
+2. REST API, (to perform CRUD operations)
+3. One database table and
+4. Accompanying web interface, using AJAX
+calls, to perform these CRUD operations.
+
+Extra points
+
+Link to 2 tables
+Require user to log in
+The web page looks nice.
+A more complicated API. 
+Server Links to some third party API.
+If the third party API requires authentication.
+Hosted online (e.g. Azure, Pythonanywhere) 
+
+
+Plan:
+* Database tables:
+    * Customers
+    * Products
+    * Orders
+        * Orders should refer to customers and products (i.e. who ordered what)
+* Webpage does GET calls to database via app to get products.
+* Customer enters their details, webpage does PUSH to database via app to add the customer.
+    * Cutomer can then login and edit their details via PUT
+* Webpage does GET to get the customer information back. 
+* When customer wishes to make an order, they specify products and customer. This then does a PUSH to Shopify to create the order.
+* App then does GET on the order, and PUSHes it to the database.
+* Webpage does a GET to show the order details.
+* Try to host this online

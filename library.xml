@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library_catalogue>
+    <technical_books>
+        <book>
+            <title>The Data Warehouse Toolkit</title>
+            <author>Ralph Kimball</author>
+            <isbn10>1118530802</isbn10>
+            <isbn13>9781118530801</isbn13>
+        </book>
+        <book>
+            <title>The Art of SQL</title>
+            <author>Stephane Faroult</author>
+            <isbn10>0596008945</isbn10>
+            <isbn13>9780596008949</isbn13>
+
+        </book>
+    </technical_books>
+    <cookery_books>
+        <book>
+            <title>Phoenix Claws and Jade Trees : Essential Techniques of Authentic Chinese Cooking: A Cookbook</title>
+            <author>Kian Lam Kho</author>
+            <isbn10>0385344686</isbn10>
+            <isbn13>9780385344685</isbn13>
+        </book>
+        <book>
+            <title>Donabe : Classic and Modern Japanese Clay Pot Cooking [A Cookbook]</title>
+            <author>Naoko Takei Moore</author>
+            <isbn>1607746999</isbn>
+            <isbn13>9781607746997</isbn13>
+        </book>
+    </cookery_books>
+</library_catalogue>

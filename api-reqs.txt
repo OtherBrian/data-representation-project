@@ -1,0 +1,61 @@
+Shopify API requirements
+
+Authorization - https://shopify.dev/apps/auth#types-of-authentication
+
+HTTP Authentication
+
+
+Private apps can authenticate through basic HTTP authentication by using their Admin API key and password as a username and password. You can generate these credentials from the Shopify admin of the store that you want to connect with your app.
+
+Public and custom apps can authenticate using a custom HTTP request header, which is used for informational or troubleshooting purposes. You must include the request header X-Shopify-Access-Token: {access_token}, where {access_token} is replaced by your private app’s password. Shopify provides several API libraries that can help you implement this specification.
+
+Steps on getting app credentials - https://shopify.dev/apps/auth/basic-http
+
+1. create store
+2. create private app in store
+3. Making authenticated requests - https://shopify.dev/apps/auth/basic-http#3-make-authenticated-requests
+
+Info on End Points - https://shopify.dev/api/admin-rest#endpoints
+
+Orders api - https://shopify.dev/api/admin-rest/2021-10/resources/order#top
+
+"Create a comprehensive order" might be what I want here. 
+
+Order ID is included in the response. Can I automatically grab this and do the GET straight away?
+
+GET the order afterwards - https://shopify.dev/api/admin-rest/2021-10/resources/order#[get]/admin/api/2021-10/orders/{order_id}.json
+
+
+
+Details I need for my databases so I can pass details to Shopify API
+
+Customer
+address1: (street address)
+city:
+country:
+first_name: (customer name)
+last_name: 
+email: (give a disclaimer that an actual email will be sent if that choose to fulfil order)
+
+
+
+order example
+
+{
+    "line_items": {
+        "name": product_name,
+        "price": price,
+        "title": product_name,
+        "quantity": quantity
+    },
+    "email": email,
+    "shipping_address": {
+        "name": customer_name,
+        "first_name": first_name,
+        "last_name": last_name,
+        "address1": street_address,
+        "city": city,
+        "country": country
+    },
+    "total_price":total_price
+}
