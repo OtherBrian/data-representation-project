@@ -47,7 +47,6 @@ def createCustomer():
     }
     return jsonify(customersDAO.create(customer))
 
-    return "served by Create "
 
 # Update customer
 @app.route('/customers/<int:id>', methods=['PUT'])
