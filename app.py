@@ -94,7 +94,7 @@ def findProductsById(id):
     return jsonify(productsDAO.findProductById(id))
 
 # find products by price
-@app.route('/products/<int:price>')
+@app.route('/products/<float:price>')
 def findProductsByPrice(price):
     return jsonify(productsDAO.findProductsByPrice(price))
 

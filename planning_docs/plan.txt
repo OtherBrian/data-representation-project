@@ -31,3 +31,8 @@ Plan:
 * App then does GET on the order, and PUSHes it to the database.
 * Webpage does a GET to show the order details.
 * Try to host this online
+
+
+Issues to address
+
+500 server error when trying to create customer. Probably caused by the auto increment ID. Find out how to resolve this.
