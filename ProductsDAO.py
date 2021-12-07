@@ -48,12 +48,12 @@ class ProductsDAO:
 
     def create(self, product):
         cursor = self.db.cursor()
-        sql = "insert into products (product_id, product_name, price, product_description) values (%s,%s,%s,%s)"
+        sql = "insert into products (product_name, price, product_description, product_image_url) values (%s,%s,%s,%s)"
         values = [
-        product['product_id'],
         product['product_name'],
         product['price'],
-        product['product_description']
+        product['product_description'],
+        product['product_image_url']
         ]
         cursor.execute(sql, values)
         self.db.commit()
@@ -61,11 +61,12 @@ class ProductsDAO:
 
     def updateProduct(self, product):
         cursor = self.db.cursor()
-        sql = "update products set product_name = %s, price = %s, product_description = %s where product_id = %s"
+        sql = "update products set product_name = %s, price = %s, product_description = %s, product_image_url = %s where product_id = %s"
         values = [
         product['product_name'],
         product['price'],
         product['product_description'],
+        product['product_image_url'],
         product['product_id']
         ]
         cursor.execute(sql, values)
@@ -81,7 +82,7 @@ class ProductsDAO:
         return {}
 
     def convertToDict(self, result):
-        colnames = ['product_id','product_name', 'price', 'product_description']
+        colnames = ['product_id','product_name', 'price', 'product_description', 'product_image_url']
         product = {}
 
         if result:

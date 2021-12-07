@@ -109,7 +109,8 @@ def createProduct():
     product = {
         "product_name": request.json["product_name"],
         "price": request.json["price"],
-        "product_description": request.json["product_description"]
+        "product_description": request.json["product_description"],
+        "product_image_url": request.json["product_image_url"]
     }
     return jsonify(productsDAO.create(product))
 
@@ -129,6 +130,8 @@ def updateProduct(id):
         currentProduct['price'] = request.json['price']
     if 'product_description' in request.json:
         currentProduct['product_description'] = request.json['product_description']
+    if 'product_image_url' in request.json:
+        currentProduct['product_image_url'] = request.json['product_image_url']
     productsDAO.updateProduct(currentProduct)
 
     return jsonify(currentProduct)

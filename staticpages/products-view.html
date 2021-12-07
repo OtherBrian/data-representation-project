@@ -1,0 +1,247 @@
+<html>
+    <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div id="create-update" style="display:none">
+            <h2>create-edit</h2>
+            <table id="createUpdateForm">
+                <tr id="createUpdateFormID">
+                    <td>Product ID</td>
+                    <td><input type="text" name="product_id" id="idInput"></td>
+                </tr>
+                <tr>
+                    <td>Product Name</td>
+                    <td><input type="text" name="product_name"></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><input type="number" name="price"></td>
+                </tr>
+                <tr>    
+                    <td>Product Description</td>
+                    <td><input type="text" name="product_description"></td>
+                </tr>
+                <tr>    
+                    <td>Product Image URL</td>
+                    <td><input type="url" name="product_image_url"></td>
+                </tr>
+                <tr>
+                    <td></td><td>
+                        <button id="create-button" onclick="doCreate()">Create</button>     
+                        <button id="update-button" onclick="doUpdate()">update</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="display">
+            <h2>Products</h2>
+            <button onClick="showCreate()">Create</button>
+            <table id="productTable" class="product">
+                <tr>
+                    <th>Product ID</th><th>Product Name</th><th>Price</th><th>Product Description</th><th>Product Image</th><th></th><th></th>
+                </tr>
+                
+            </table>
+
+        </div>
+
+        <script>
+            function showCreate(){
+                document.getElementById('display').style.display = "none"
+                document.getElementById('update-button').style.display = "none"
+                document.getElementById('create-button').style.display = "block"
+                document.getElementById('create-update').style.display = "block"
+                document.getElementById("createUpdateFormID").style.display = "none"
+
+            }
+            function showUpdate(thisElem){
+
+                var rowElement = thisElem.parentNode.parentNode;
+                product = readProductFromRow(rowElement)
+                populateForm(product)
+
+                document.getElementById('display').style.display = "none"
+                document.getElementById('update-button').style.display = "block"
+                document.getElementById('create-button').style.display = "none"
+                document.getElementById('create-update').style.display = "block"
+  
+
+            }
+            function readProductFromRow(rowElement){
+                product = {}
+                product.product_id = rowElement.getAttribute("product_id");
+                product.first_name = rowElement.cells[1].firstChild.textContent
+                product.last_name = rowElement.cells[2].firstChild.textContent
+                product.street_address = rowElement.cells[3].firstChild.textContent
+                product.city = rowElement.cells[4].firstChild.textContent
+                product.country = rowElement.cells[5].firstChild.textContent
+                product.email = rowElement.cells[6].firstChild.textContent
+
+                return product
+                
+            }
+            function populateForm(product){
+                var form = document.getElementById('createUpdateForm')
+
+                
+                form.querySelector('input[name="product_id"]').value = product.product_id
+                form.querySelector('input[name="product_id"]').disabled=true
+                form.querySelector('input[name="product_name"]').value = product.product_name
+                form.querySelector('input[name="price"]').value = product.price
+                form.querySelector('input[name="product_description"]').value = product.product_description
+                form.querySelector('input[name="product_image_url"]').value = product.product_image_url     
+            }
+            function clearForm() {
+                    var form = document.getElementById('createUpdateForm')
+
+                    form.querySelector('input[name="product_id"]').value = ''
+                    form.querySelector('input[name="product_id"]').disabled = false
+                    form.querySelector('input[name="product_name"]').value = ''
+                    form.querySelector('input[name="price"]').value = ''
+                    form.querySelector('input[name="product_description"]').value = ''
+                    form.querySelector('input[name="product_image_url"]').value = ''
+                }
+
+            function doCreate(){
+                console.log("in doCreate")
+                product= getProductFromForm()
+                console.log(product)
+                $.ajax({
+                    url:"/products",
+                    data:JSON.stringify(product),
+                    method:"POST",
+                    dataType:"JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success:function(result){
+                        console.log(result)
+                        populateTable() 
+                        showDisplay()
+                        clearForm()
+
+                    },
+                    error:function(xhr,status,error){
+                        console.log("error"+error)
+                    }
+                })
+               
+            }
+            function doUpdate(){
+                product = getProductFromForm()
+                updateServer(product)
+                
+            }
+            function updateServer(product){
+               $.ajax({
+                    url: "/products/"+product.product_id,
+                    data: JSON.stringify(product),
+                    method: "PUT",
+                    dataType: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log(result)
+                        updateTableRow(product)
+                        showDisplay()
+                        clearForm()
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("error" + error)
+                    }
+                })
+            }
+            function doDelete(thisElem){
+                var tableElement = document.getElementById('productTable');
+                var rowElement = thisElem.parentNode.parentNode;
+                var index = rowElement.rowIndex;
+                product_id = rowElement.getAttribute("product_id");
+                $.ajax({
+                    url:"/products/"+product_id,
+                    method:"DELETE",
+                    dateType:"JSON",
+                    success:function(result){
+                        tableElement.deleteRow(index);
+                    },
+                    error:function(xhr,status,error){
+                        console.log(error)
+                    }
+                })
+                
+            }
+            function updateTableRow(product){
+                rowElement = document.getElementById(product.product_id)
+                rowElement.cells[1].firstChild.textContent = product.product_name
+                rowElement.cells[2].firstChild.textContent = product.price
+                rowElement.cells[3].firstChild.textContent = product.product_description
+                rowElement.cells[4].firstChild.textContent = product.product_image_url
+            }
+            function getProductFromForm(){
+                var form = document.getElementById('createUpdateForm')
+
+                var product = {}
+                product.product_id = form.querySelector('input[name="product_id"]').value
+                product.product_name = form.querySelector('input[name="product_name"]').value
+                product.price = form.querySelector('input[name="price"]').value
+                product.product_description = form.querySelector('input[name="product_description"]').value
+                product.product_image_url = form.querySelector('input[name="product_image_url"]').value
+                 return product
+            }
+             function showDisplay() {
+                    document.getElementById('display').style.display = "block"
+                    document.getElementById('create-update').style.display = "none"
+
+                }
+
+            function populateTable(){
+                //ajax getAll
+               $.ajax({
+                   url:'http://127.0.0.1:5000/products',
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        for (product of results){
+                             addProductToTable(product)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+            function addProductToTable(product){
+                tableElem = document.getElementById("productTable")
+                rowElem = tableElem.insertRow(-1)
+                rowElem.setAttribute("product_id", product.product_id)
+                cell1 = rowElem.insertCell(0)
+                cell1.innerHTML = product.product_id
+                cell2 = rowElem.insertCell(1)
+                cell2.innerHTML = product.product_name
+                cell3 = rowElem.insertCell(2)
+                cell3.innerHTML = '€' + product.price.toFixed(2)
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = product.product_description
+                var img = document.createElement('img')
+                img.width = 200
+                img.height = 200
+                if (product.product_image_url.length >= 1){ 
+                    img.src = product.product_image_url
+                } else {
+                    img.src = "https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/image-missing.png"
+                }
+                cell5 = rowElem.insertCell(4)
+                cell5.append(img)
+                cell6 = rowElem.insertCell(5)
+                cell6.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+                cell7 = rowElem.insertCell(6)
+                cell7.innerHTML = '<button onclick="doDelete(this)">delete</button>'
+                 }
+            populateTable()
+        </script>
+    </body>
+</html>
