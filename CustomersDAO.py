@@ -61,9 +61,8 @@ class CustomersDAO:
 
     def create(self, customer):
         cursor = self.db.cursor()
-        sql = "insert into customers (customer_id, first_name, last_name, street_address, city, country, email) values (%s,%s,%s,%s,%s,%s,%s)"
+        sql = "insert into customers (first_name, last_name, street_address, city, country, email) values (%s,%s,%s,%s,%s,%s)"
         values = [
-        customer['customer_id'],
         customer['first_name'],
         customer['last_name'],
         customer['street_address'],

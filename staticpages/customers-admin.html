@@ -10,7 +10,7 @@
         <div id="create-update" style="display:none">
             <h2>create-edit</h2>
             <table id="createUpdateForm">
-                <tr>
+                <tr id="createUpdateFormID">
                     <td>Customer ID</td>
                     <td><input type="text" name="customer_id" id="idInput"></td>
                 </tr>
@@ -64,9 +64,11 @@
                 document.getElementById('update-button').style.display = "none"
                 document.getElementById('create-button').style.display = "block"
                 document.getElementById('create-update').style.display = "block"
+                document.getElementById("createUpdateFormID").style.display = "none"
 
             }
             function showUpdate(thisElem){
+
                 var rowElement = thisElem.parentNode.parentNode;
                 customer = readCustomerFromRow(rowElement)
                 populateForm(customer)
@@ -75,6 +77,7 @@
                 document.getElementById('update-button').style.display = "block"
                 document.getElementById('create-button').style.display = "none"
                 document.getElementById('create-update').style.display = "block"
+  
 
             }
             function readCustomerFromRow(rowElement){
@@ -96,7 +99,6 @@
                 
                 form.querySelector('input[name="customer_id"]').value = customer.customer_id
                 form.querySelector('input[name="customer_id"]').disabled=true
-                
                 form.querySelector('input[name="first_name"]').value = customer.first_name
                 form.querySelector('input[name="last_name"]').value = customer.last_name
                 form.querySelector('input[name="street_address"]').value = customer.street_address
@@ -107,10 +109,8 @@
             function clearForm() {
                     var form = document.getElementById('createUpdateForm')
 
-
                     form.querySelector('input[name="customer_id"]').value = ''
                     form.querySelector('input[name="customer_id"]').disabled = false
-
                     form.querySelector('input[name="first_name"]').value = ''
                     form.querySelector('input[name="last_name"]').value = ''
                     form.querySelector('input[name="street_address"]').value = ''
@@ -130,8 +130,8 @@
                     dataType:"JSON",
                     contentType: "application/json; charset=utf-8",
                     success:function(result){
-                        console.log(result) 
-                        addCustomerToTable(customer)
+                        console.log(result)
+                        populateTable() 
                         showDisplay()
                         clearForm()
 
