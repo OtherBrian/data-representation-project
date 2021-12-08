@@ -2,6 +2,7 @@ from flask import Flask, url_for, request, redirect, abort, jsonify
 from CustomersDAO import customersDAO
 from ProductsDAO import productsDAO
 import requests
+import code
 
 app = Flask(__name__, static_url_path='', static_folder='staticpages')
 
@@ -176,7 +177,7 @@ def createOrder():
 @app.route("/orders")
 def shopifyOrder(order):
     url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders.json'
-    headers = {'Content-type': 'application/json', 'X-Shopify-Access-Token': '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'}
+    headers = {'Content-type': 'application/json', 'X-Shopify-Access-Token': code.code}
     response = requests.post(url, json=order, headers=headers)
     response_test = response.json()
     response_test = response_test["draft_order"]["id"]
