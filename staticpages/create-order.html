@@ -7,6 +7,21 @@
 
     </head>
     <body>
+
+        <div id="orderCreation" style="display:none">
+            <h3>Order Summary</h3>
+            <p id="selectedProduct">Selected Product: <span id="selectedProductName"></span> &emsp; Total Cost: €<span id="selectedProductPrice"></span></p>
+            <div id="selectedCustomer" style="display:none">
+                <p>Customer: <span id="selectedCustomerFirstName"></span> <span id="selectedCustomerSecondName"></span></p>
+                <p>Address: <span id="selectedCustomerStreetAddress"></span>, <span id="selectedCustomerCity"></span>, <span id="selectedCustomerCountry"></span></p>
+                <p>Email Address: <span id="selectedCustomerEmail"></span></p>
+            </div>
+            <div id="orderButtons" style="display:none">
+                <button onClick="createOrder(order)">Create Order</button>
+                <button onClick="showProductDisplay()">Edit Order</button>
+            </div>
+        </div>
+
         <div id="product-create-update" style="display:none">
             <h2>Create / Update Product</h2>
             <table id="createUpdateProductForm">
@@ -89,7 +104,7 @@
                 </tr>
             </table>
         </div>
-        <div id="customer-display">
+        <div id="customer-display" style="display:none">
             <h2>Customers</h2>
             <button onClick="showCustomerCreate()">Create</button>
             <table id="customerTable" class="customer">
@@ -101,13 +116,6 @@
     
         </div>
 
-        <div id="orderCreation" style="display:none">
-            <h3>Order Summary</h3>
-            <p>Selected Product: <span id="selectedProductName"></span> &emsp; Total Cost: €<span id="selectedProductPrice"></span></p>
-            <p>Customer: <span id="selectedCustomerFirstName"></span> <span id="selectedCustomerSecondName"></span></p>
-            <p>Address: <span id="selectedCustomerStreetAddress"></span>, <span id="selectedCustomerCity"></span>, <span id="selectedCustomerCountry"></span></p>
-            <p>Email Address: <span id="selectedCustomerEmail"></span></p>
-        </div>
 
         <script>
 
@@ -126,16 +134,29 @@
             }
             function selectProduct(thisElem, order){
 
+                document.getElementById('orderCreation').style.display = "block"
+                document.getElementById('selectedProduct').style.display = "block"
+
+                // After product is selected, hide products and show customers.
+                document.getElementById('customer-display').style.display = "block"
+                document.getElementById('product-display').style.display = "none"
+
                 var rowElement = thisElem.parentNode.parentNode;
                 product = readProductFromRow(rowElement)
 
                 order.product_name = product.product_name
                 order.price = product.price
                 orderSummary(order)
+
+
                 return order
             }
 
             function selectCustomer(thisElem, order){
+                document.getElementById('selectedCustomer').style.display = "block"
+                document.getElementById('customer-display').style.display = "none"
+                document.getElementById('orderButtons').style.display = "block"
+
 
                 var rowElement = thisElem.parentNode.parentNode;
                 customer = readCustomerFromRow(rowElement)
@@ -151,8 +172,6 @@
             }
 
             function orderSummary(order) {
-                console.log(order)
-                document.getElementById('orderCreation').style.display = "block"
                 document.getElementById('selectedProductName').innerHTML = order.product_name
                 document.getElementById('selectedProductPrice').innerHTML = order.price
                 document.getElementById('selectedCustomerFirstName').innerHTML = order.customer_first_name
@@ -161,6 +180,10 @@
                 document.getElementById('selectedCustomerCity').innerHTML = order.customer_city
                 document.getElementById('selectedCustomerCountry').innerHTML = order.customer_country
                 document.getElementById('selectedCustomerEmail').innerHTML = order.customer_email
+            }
+
+            function createOrder(order) {
+                console.log(order)
             }
 
             function showProductUpdate(thisElem){
@@ -302,9 +325,8 @@
              function showProductDisplay() {
                     document.getElementById('product-display').style.display = "block"
                     document.getElementById('product-create-update').style.display = "none"
-                    document.getElementById('customer-display').style.display = "block"
+                    document.getElementById('customer-display').style.display = "none"
                     document.getElementById('customer-create-update').style.display = "none"
-
                 }
 
             function populateProductTable(){
@@ -520,7 +542,7 @@
          function showCustomerDisplay() {
                 document.getElementById('customer-display').style.display = "block"
                 document.getElementById('customer-create-update').style.display = "none"
-                document.getElementById('product-display').style.display = "block"
+                document.getElementById('product-display').style.display = "none"
                 document.getElementById('product-create-update').style.display = "none"
 
             }
