@@ -17,7 +17,7 @@
                 <p>Email Address: <span id="selectedCustomerEmail"></span></p>
             </div>
             <div id="orderButtons" style="display:none">
-                <button onClick="createOrder(order)">Create Order</button>
+                <button onClick="createOrder()">Create Order</button>
                 <button onClick="showProductDisplay()">Edit Order</button>
             </div>
         </div>
@@ -182,8 +182,25 @@
                 document.getElementById('selectedCustomerEmail').innerHTML = order.customer_email
             }
 
-            function createOrder(order) {
+            function createOrder() {
                 console.log(order)
+
+                $.ajax({
+                    url:"/orders",
+                    data:JSON.stringify(order),
+                    method:"POST",
+                    dataType:"JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success:function(result){
+                        console.log(result)
+                        showProductDisplay()
+                        document.getElementById('orderCreation').style.display = "none"
+
+                    },
+                    error:function(xhr,status,error){
+                        console.log("error"+error)
+                    }
+                })
             }
 
             function showProductUpdate(thisElem){

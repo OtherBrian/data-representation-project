@@ -142,5 +142,30 @@ def deleteProduct(id):
 
     return jsonify({"done": True})
 
+@app.route('/orders', methods=['POST'])
+def createOrder():
+
+    if not request.json:
+        abort(400)
+
+    order = {
+        "line_items" : {
+            "name": request.json["product_name"],
+            "price": request.json["price"],
+            "quantity": 1
+        },
+        "email": request.json["customer_email"],
+        "shipping_address": {
+            "first_name":request.json["customer_first_name"],
+            "last_name": request.json["customer_last_name"],
+            "address1": request.json["customer_street_address"],
+            "city": request.json["customer_city"],
+            "country": request.json["customer_country"]
+        },
+        "total_price": request.json["price"]
+    }
+    return jsonify(order)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
