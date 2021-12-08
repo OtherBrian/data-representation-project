@@ -1,6 +1,7 @@
 from flask import Flask, url_for, request, redirect, abort, jsonify
 from CustomersDAO import customersDAO
 from ProductsDAO import productsDAO
+import requests
 
 app = Flask(__name__, static_url_path='', static_folder='staticpages')
 
@@ -149,23 +150,38 @@ def createOrder():
         abort(400)
 
     order = {
-        "line_items" : {
-            "name": request.json["product_name"],
-            "price": request.json["price"],
-            "quantity": 1
-        },
-        "email": request.json["customer_email"],
-        "shipping_address": {
-            "first_name":request.json["customer_first_name"],
-            "last_name": request.json["customer_last_name"],
-            "address1": request.json["customer_street_address"],
-            "city": request.json["customer_city"],
-            "country": request.json["customer_country"]
-        },
-        "total_price": request.json["price"]
+        'draft_order': {
+            'status': 'completed',
+            'line_items' : [{
+            'name': request.json["product_name"],
+            'title':  request.json["product_name"],
+            'price': request.json["price"],
+            'taxable': 'false',
+            'quantity': 1
+            }],
+            'email': request.json["customer_email"],
+            'shipping_address': {
+                'first_name': request.json["customer_first_name"],
+                'last_name': request.json["customer_last_name"],
+                'address1': request.json["customer_street_address"],
+                'city': request.json["customer_city"],
+                'country': request.json["customer_country"]
+            },
+            'total_price': request.json["price"],
+            'send_receipt': 'false'
+        }
     }
-    return jsonify(order)
+    return shopifyOrder(order)
 
+@app.route("/orders")
+def shopifyOrder(order):
+    url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders.json'
+    headers = {'Content-type': 'application/json', 'X-Shopify-Access-Token': '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'}
+    response = requests.post(url, json=order, headers=headers)
+    response_test = response.json()
+    response_test = response_test["draft_order"]["id"]
+
+    return jsonify(response_test)
 
 if __name__ == "__main__":
     app.run(debug=True)
