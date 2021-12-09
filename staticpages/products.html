@@ -11,6 +11,7 @@
             <h2>Products</h2>
             <p>Show products below €<input type="number" id="filterPrice" step="0.01"></p>
             <button onclick="filterTable()">Filter</button>
+            <button onclick="populateTable()">Show All</button>
             <table id="productTable" class="product">
                 <tr>
                     <th>Product ID</th><th>Product Name</th><th>Price</th><th>Product Description</th><th></th>
@@ -41,7 +42,6 @@
             }
 
             function filterTable(){
-                //ajax getAll
                 filter_price = document.getElementById("filterPrice").value
                $.ajax({
                    url:'http://127.0.0.1:5000/products/price/' + filter_price,

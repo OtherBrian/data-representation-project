@@ -22,15 +22,15 @@ def getAllCustomers():
 def findCustomersByID(id):
     return jsonify(customersDAO.findCustomerById(id))
 
-# find custoemrs by city
-@app.route('/customers/<string:city>')
+# find customers by city
+@app.route('/customers/city/<string:city>')
 def findCustomersByCity(city):
     return jsonify(customersDAO.findCustomersByCity(city))
 
-# find custoemrs by country
-@app.route('/customers/<string:country>')
+# find customers by country
+@app.route('/customers/country/<string:country>')
 def findCustomersByCountry(country):
-    return jsonify(customersDAO.findCustomersByCity(country))
+    return jsonify(customersDAO.findCustomersByCountry(country))
 
 # Create customer
 @app.route('/customers', methods=['POST'])

@@ -46,6 +46,11 @@
                 </tr>
             </table>
         </div>
+        <p>Filter customers by City<input type="text" id="filterCity"></p>
+            <button onclick="filterTableCity()">Filter City</button>
+        <p>Filter customers by Country<input type="text" id="filterCountry"></p>
+            <button onclick="filterTableCountry()">Filter Country</button>
+            <button onclick="populateTable()">Show All</button>
         <div id="display">
             <h2>Customers</h2>
             <button onClick="showCreate()">Create</button>
@@ -231,6 +236,52 @@
                })
                
             }
+            function filterTableCity(){
+                filter_city = document.getElementById("filterCity").value
+               $.ajax({
+                   url:'http://127.0.0.1:5000/customers/city/' + filter_city,
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        //var Table = document.getElementById("productTable");
+                        for (let i = 1; i < document.getElementById("customerTable").rows.length; i++){
+                            document.getElementById("customerTable").rows[i].innerHTML = "";
+                        }
+                        for (customer of results){
+                            addCustomerToTable(customer)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+            function filterTableCountry(){
+                filter_country = document.getElementById("filterCountry").value
+                console.log(filter_country)
+               $.ajax({
+                   url:'http://127.0.0.1:5000/customers/country/' + filter_country,
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        //var Table = document.getElementById("productTable");
+                        for (let i = 1; i < document.getElementById("customerTable").rows.length; i++){
+                            document.getElementById("customerTable").rows[i].innerHTML = "";
+                        }
+                        for (customer of results){
+                            addCustomerToTable(customer)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+
             function addCustomerToTable(customer){
                 tableElem = document.getElementById("customerTable")
                 rowElem = tableElem.insertRow(-1)
