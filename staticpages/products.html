@@ -25,19 +25,20 @@
                                 color:white;}
                     body{ background-color: #DDCA7D;}
                     #logo{ border-radius: 8px;
-                            width: 30%;
+                            width: 20%;
                             height: auto;
                             display: block;
                             margin-left: auto;
-                            margin-right: auto;
+                            margin-right: 0;
                             border:0;
                             padding:0;
-                            background-color: #DDCA7D; }
+                            background-color: #DDCA7D;
+                            float:right }
                     #logoContainer{background-color: #DDCA7D;}
                     </style>
     </head>
     <body>
-        <div id="logoContainer"><img src="../images/logo.png" id="logo"></div>
+        <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
         <div id="display">
             <h1>Products</h2>
             <p>Only show products below € <input type="number" id="filterPrice" step="0.01"> <button onclick="filterTable()">Filter</button><button id="showAllButton" onclick="populateTable()" style="display:none">Show All</button>
