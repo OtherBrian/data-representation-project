@@ -4,14 +4,44 @@
             
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+                <style>
+                    h1   {color: #533E2D;}
+                    p    {color: #A27035;}
+                    button {background-color:bisque;
+                            border-radius: 12px;}
+                    button:hover {background-color: #4CAF50;
+                                    color: white;}
+                    table {width: 80%;
+                            margin: 10%}
+                    tr {color: #A27035;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding: 15px;}
+                    th  {color: #533E2D;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding: 15px;}
+                    tr:hover {background-color: #A27035;
+                                color:white;}
+                    body{ background-color: #DDCA7D;}
+                    #logo{ border-radius: 8px;
+                            width: 30%;
+                            height: auto;
+                            display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                            border:0;
+                            padding:0;
+                            background-color: #DDCA7D; }
+                    #logoContainer{background-color: #DDCA7D;}
+                    </style>
     </head>
     <body>
+        <div id="logoContainer"><img src="../images/logo.png" id="logo"></div>
         <div id="display">
-            <h2>Products</h2>
-            <p>Show products below €<input type="number" id="filterPrice" step="0.01"></p>
-            <button onclick="filterTable()">Filter</button>
-            <button onclick="populateTable()">Show All</button>
+            <h1>Products</h2>
+            <p>Only show products below € <input type="number" id="filterPrice" step="0.01"> <button onclick="filterTable()">Filter</button><button id="showAllButton" onclick="populateTable()" style="display:none">Show All</button>
+            </p>
             <table id="productTable" class="product">
                 <tr>
                     <th>Product ID</th><th>Product Name</th><th>Price</th><th>Product Description</th><th></th>
@@ -36,9 +66,8 @@
                    error:function (xhr,status,error){
                        console.log ("error "+error +" code:"+status)
                    }
-
                })
-               
+               document.getElementById("showAllButton").style.display = "none"
             }
 
             function filterTable(){
@@ -55,6 +84,7 @@
                         for (product of results){
                              addProductToTable(product)
                         }
+                        document.getElementById("showAllButton").style.display = "block"
                    },
                    error:function (xhr,status,error){
                        console.log ("error "+error +" code:"+status)

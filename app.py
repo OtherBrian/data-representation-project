@@ -1,16 +1,21 @@
-from flask import Flask, url_for, request, redirect, abort, jsonify
+from flask import Flask, url_for, request, redirect, abort, jsonify, render_template
 from CustomersDAO import customersDAO
 from ProductsDAO import productsDAO
 import requests
 import code
 
-app = Flask(__name__, static_url_path='', static_folder='staticpages')
+app = Flask(__name__, static_url_path='', static_folder='staticpages', template_folder='staticpages')
 
 @app.route('/')
 def index():
     return "test test"
 
 # Customers first
+
+@app.route('/viewcustomers')
+def customers():
+    return render_template('customers.html')
+
 #get all
 @app.route('/customers')
 def getAllCustomers():

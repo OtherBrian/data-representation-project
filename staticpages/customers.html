@@ -1,6 +1,6 @@
 <html>
-    <head>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <head>    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -46,22 +46,23 @@
                 </tr>
             </table>
         </div>
-        <p>Filter customers by City<input type="text" id="filterCity"></p>
-            <button onclick="filterTableCity()">Filter City</button>
-        <p>Filter customers by Country<input type="text" id="filterCountry"></p>
-            <button onclick="filterTableCountry()">Filter Country</button>
-            <button onclick="populateTable()">Show All</button>
         <div id="display">
             <h2>Customers</h2>
             <button onClick="showCreate()">Create</button>
+            <div id="filterButtons">
+                <p>Filter customers by City: <input type="text" id="filterCity"> <button onclick="filterTableCity()">Filter City</button></p>
+                <p>Filter customers by Country: <input type="text" id="filterCountry"> <button onclick="filterTableCountry()">Filter Country</button></p>
+                    <button onclick="populateTable()" id="showAllButton" style="display:none">Show All</button>
+                </div>
             <table id="customerTable" class="customer">
                 <tr>
                     <th>Customer ID</th><th>First Name</th><th>Last Name</th><th>Street Address</th><th>City</th><th>Country</th><th>Email</th><th></th><th></th>
                 </tr>
                 
             </table>
-
         </div>
+
+        
 
         <script>
             function showCreate(){
@@ -71,6 +72,8 @@
                 document.getElementById('create-update').style.display = "block"
                 // Hiding the ID text box when creating products as it's auto-incremented.
                 document.getElementById("createUpdateFormID").style.display = "none"
+                document.getElementById('filterButtons').style.display = "none"
+
 
             }
             function showUpdate(thisElem){
@@ -83,7 +86,7 @@
                 document.getElementById('update-button').style.display = "block"
                 document.getElementById('create-button').style.display = "none"
                 document.getElementById('create-update').style.display = "block"
-  
+                document.getElementById('filterButtons').style.display = "none"
 
             }
             function readCustomerFromRow(rowElement){
@@ -215,6 +218,8 @@
              function showDisplay() {
                     document.getElementById('display').style.display = "block"
                     document.getElementById('create-update').style.display = "none"
+                    document.getElementById('filterButtons').style.display = "block"
+                    document.getElementById('showAllButton').style.display = "none"
 
                 }
 
@@ -234,7 +239,7 @@
                    }
 
                })
-               
+               document.getElementById('showAllButton').style.display = "none"
             }
             function filterTableCity(){
                 filter_city = document.getElementById("filterCity").value
@@ -250,6 +255,7 @@
                         for (customer of results){
                             addCustomerToTable(customer)
                         }
+                        document.getElementById('showAllButton').style.display = "block"
                    },
                    error:function (xhr,status,error){
                        console.log ("error "+error +" code:"+status)
@@ -273,6 +279,7 @@
                         for (customer of results){
                             addCustomerToTable(customer)
                         }
+                        document.getElementById('showAllButton').style.display = "block"
                    },
                    error:function (xhr,status,error){
                        console.log ("error "+error +" code:"+status)
