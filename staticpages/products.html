@@ -1,0 +1,100 @@
+<html>
+    <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div id="display">
+            <h2>Products</h2>
+            <p>Show products below €<input type="number" id="filterPrice" step="0.01"></p>
+            <button onclick="filterTable()">Filter</button>
+            <table id="productTable" class="product">
+                <tr>
+                    <th>Product ID</th><th>Product Name</th><th>Price</th><th>Product Description</th><th></th>
+                </tr>
+            </table>
+
+        </div>
+
+        <script>
+            
+            function populateTable(){
+                //ajax getAll
+               $.ajax({
+                   url:'http://127.0.0.1:5000/products',
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        for (product of results){
+                             addProductToTable(product)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+
+            function filterTable(){
+                //ajax getAll
+                filter_price = document.getElementById("filterPrice").value
+               $.ajax({
+                   url:'http://127.0.0.1:5000/products/price/' + filter_price,
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        //var Table = document.getElementById("productTable");
+                        for (let i = 1; i < document.getElementById("productTable").rows.length; i++){
+                            document.getElementById("productTable").rows[i].innerHTML = "";
+                        }
+                        for (product of results){
+                             addProductToTable(product)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+
+            function addProductToTable(product){
+                tableElem = document.getElementById("productTable")
+                rowElem = tableElem.insertRow(-1)
+                rowElem.setAttribute("id", product.product_id)
+                cell1 = rowElem.insertCell(0)
+                cell1.innerHTML = product.product_id
+                cell2 = rowElem.insertCell(1)
+                cell2.innerHTML = product.product_name
+                cell3 = rowElem.insertCell(2)
+                cell3.innerHTML = product.price
+                cell4 = rowElem.insertCell(3)
+                // Including a default product description if none is entered.
+                if (product.product_description.length >= 1) {
+                    cell4.innerHTML = product.product_description
+                } else {
+                    cell4.innerHTML = "Description missing."
+                }
+                // Making this cell an image.
+                var img = document.createElement('img')
+                img.width = 200
+                img.height = 200
+                // If no image URL is entered, use this backup URL.
+                if (product.product_image_url.length >= 1){ 
+                    img.src = product.product_image_url
+                } else {
+                    img.src = "https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/image-missing.png"
+                }
+                cell5 = rowElem.insertCell(4)
+                cell5.append(img)
+                 }
+            populateTable()
+        </script>
+    </body>
+</html>

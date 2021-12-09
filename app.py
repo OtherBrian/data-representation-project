@@ -95,7 +95,7 @@ def findProductsById(id):
     return jsonify(productsDAO.findProductById(id))
 
 # find products by price
-@app.route('/products/<float:price>')
+@app.route('/products/price/<int:price>')
 def findProductsByPrice(price):
     return jsonify(productsDAO.findProductsByPrice(price))
 
@@ -115,7 +115,6 @@ def createProduct():
     }
     return jsonify(productsDAO.create(product))
 
-    return "served by Create "
 
 # Update customer
 @app.route('/products/<int:id>', methods=['PUT'])
