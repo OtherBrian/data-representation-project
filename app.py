@@ -148,6 +148,9 @@ def deleteProduct(id):
 
     return jsonify({"done": True})
 
+
+# Orders
+# Create Order on Shopify
 @app.route('/orders', methods=['POST'])
 def createOrder():
 
@@ -176,17 +179,56 @@ def createOrder():
             'send_receipt': 'false'
         }
     }
-    return shopifyOrder(order)
-
-@app.route("/orders")
-def shopifyOrder(order):
     url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders.json'
     headers = {'Content-type': 'application/json', 'X-Shopify-Access-Token': code.code}
     response = requests.post(url, json=order, headers=headers)
-    response_test = response.json()
-    response_test = response_test["draft_order"]["id"]
+    new_order = response.json()
+    new_order_id = new_order["draft_order"]["id"]
 
-    return jsonify(response_test)
+    return jsonify(new_order_id)
+
+#@app.route("/orders")
+#def shopifyOrder(order):
+   # url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders.json'
+   # headers = {'Content-type': 'application/json', 'X-Shopify-Access-Token': code.code}
+    #response = requests.post(url, json=order, headers=headers)
+   # response_test = response.json()
+   # response_test = response_test["draft_order"]["id"]
+
+    #return jsonify(response_test)
+
+# Get Shopify orders
+@app.route('/orders', methods=['GET'])
+def getOrders():
+    url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders.json'
+    headers = {'X-Shopify-Access-Token': code.code}
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    data = data["draft_orders"]
+    listOfOrders = []
+    for order in data:
+        order_details = {
+            'order_id': order["id"],
+            'name': order["shipping_address"]["name"],
+            'email': order["email"],
+            'street_address': order["shipping_address"]["address1"],
+            'city': order["shipping_address"]["city"],
+            'country': order["shipping_address"]["country"],
+            'product': order["line_items"][0]["title"],
+            'cost': order["total_price"]
+        }
+        listOfOrders.append(order_details)
+
+    return jsonify(listOfOrders)
+
+# Delete Shopify order
+@app.route('/orders/<int:id>', methods=['DELETE'])
+def deleteOrder(id):
+    url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders/' + str(id) + '.json'
+    headers = {'X-Shopify-Access-Token': code.code}
+    response = requests.delete(url, headers=headers)
+
+    return jsonify({"done": True})
 
 if __name__ == "__main__":
     app.run(debug=True)

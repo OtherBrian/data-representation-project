@@ -5,9 +5,47 @@
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+                <style>
+                    h1   {color: #533E2D;}
+                    p    {color: #A27035;}
+                    button {background-color:bisque;
+                            border-radius: 12px;}
+                    button:hover {background-color: #4CAF50;
+                                    color: white;}
+                    table {width: 80%;
+                            margin: 10%}
+                    tr {color: #A27035;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding: 15px;}
+                    th  {color: #533E2D;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding: 15px;}
+                    tr:hover {background-color: #A27035;
+                                color:white;}
+                    body{ background-color: #DDCA7D;}
+                    #logo{ border-radius: 8px;
+                            width: 20%;
+                            height: auto;
+                            display: block;
+                            margin-left: auto;
+                            margin-right: 0;
+                            border:0;
+                            padding:0;
+                            background-color: #DDCA7D;
+                            float:right }
+                    #logoContainer{background-color: #DDCA7D;}
+                    #succesfullOrder{font-size: 20px;}
+                    #createdOrderId{font-size: 22px;
+                                    font-weight:bold;
+                                    color:#242331;}
+                    </style>
     </head>
     <body>
-
+        <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
+        <h1 style="display: block;">Create Order</h1>
+        <p id="succesfullOrder" style="display: none;">Order successfully created! Order ID is: <span id="createdOrderId"></span></p>
         <div id="orderCreation" style="display:none">
             <h3>Order Summary</h3>
             <p id="selectedProduct">Selected Product: <span id="selectedProductName"></span> &emsp; Total Cost: €<span id="selectedProductPrice"></span></p>
@@ -48,14 +86,14 @@
                 <tr>
                     <td></td><td>
                         <button id="product-create-button" onclick="productCreate()">Create</button>     
-                        <button id="product-update-button" onclick="productUpdate()">update</button>
+                        <button id="product-update-button" onclick="productUpdate()">Update</button>
                     </td>
                 </tr>
             </table>
         </div>
         <div id="product-display">
             <h2>Products</h2>
-            <button onClick="showProductCreate()">Create</button>
+            <button onClick="showProductCreate()">Create Product</button>
             <table id="productTable" class="product">
                 <tr>
                     <th>Product ID</th><th>Product Name</th><th>Price</th><th>Product Description</th><th>Product Image</th><th></th><th></th><th></th>
@@ -99,14 +137,14 @@
                 <tr>
                     <td></td><td>
                         <button id="customer-create-button" onclick="customerCreate()">Create</button>     
-                        <button id="customer-update-button" onclick="customerUpdate()">update</button>
+                        <button id="customer-update-button" onclick="customerUpdate()">Update</button>
                     </td>
                 </tr>
             </table>
         </div>
         <div id="customer-display" style="display:none">
             <h2>Customers</h2>
-            <button onClick="showCustomerCreate()">Create</button>
+            <button onClick="showCustomerCreate()">Create Customer</button>
             <table id="customerTable" class="customer">
                 <tr>
                     <th>Customer ID</th><th>First Name</th><th>Last Name</th><th>Street Address</th><th>City</th><th>Country</th><th>Email</th><th></th><th></th>
@@ -148,7 +186,6 @@
                 order.price = product.price
                 orderSummary(order)
 
-
                 return order
             }
 
@@ -168,6 +205,7 @@
                 order.customer_country = customer.country
                 order.customer_email = customer.email
                 orderSummary(order)
+
                 return order
             }
 
@@ -183,7 +221,6 @@
             }
 
             function createOrder() {
-                console.log(order)
 
                 $.ajax({
                     url:"/orders",
@@ -193,6 +230,9 @@
                     contentType: "application/json; charset=utf-8",
                     success:function(result){
                         console.log(result)
+                        document.getElementById('succesfullOrder').style.display = "block"
+                        document.getElementById('createdOrderId').innerHTML = result
+
                         showProductDisplay()
                         document.getElementById('orderCreation').style.display = "none"
 
