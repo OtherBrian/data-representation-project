@@ -1,44 +1,69 @@
-from flask import Flask, url_for, request, redirect, abort, jsonify, render_template
+from flask import Flask, request, abort, jsonify, render_template, redirect, url_for
+from flask_login import (
+    LoginManager,
+    UserMixin,
+    current_user,
+    login_required,
+    login_user,
+    logout_user
+)
 from CustomersDAO import customersDAO
 from ProductsDAO import productsDAO
+from UsersDAO import usersDAO
 import requests
 import code
+from os import getenv
+from typing import Dict
 
 app = Flask(__name__, static_url_path='', static_folder='staticpages', template_folder='staticpages')
+app.config["SECRET_KEY"] = getenv("SECRET_KEY", default="secret_key_example")
+login_manager = LoginManager(app)
+
 
 @app.route('/')
 def index():
-    return "test test"
+    username = "anonymous"
+    if current_user.is_authenticated:  # type: ignore
+        username = current_user.username  # type: ignore
+    return f"""
+        <h1>Hi {username}</h1>
+        <h3>Welcome to the store!</h3>
+    """
 
 # Customers first
-
 @app.route('/viewcustomers')
+@login_required
 def customers():
     return render_template('customers.html')
 
-#get all
+#get all customers
 @app.route('/customers')
+@login_required
 def getAllCustomers():
     return jsonify(customersDAO.allCustomers())
 
 
 # find customers By id
 @app.route('/customers/<int:id>')
+@login_required
 def findCustomersByID(id):
     return jsonify(customersDAO.findCustomerById(id))
 
 # find customers by city
 @app.route('/customers/city/<string:city>')
+@login_required
 def findCustomersByCity(city):
     return jsonify(customersDAO.findCustomersByCity(city))
 
 # find customers by country
 @app.route('/customers/country/<string:country>')
+@login_required
 def findCustomersByCountry(country):
     return jsonify(customersDAO.findCustomersByCountry(country))
 
 # Create customer
 @app.route('/customers', methods=['POST'])
+@login_required
 def createCustomer():
    
     if not request.json:
@@ -57,6 +82,7 @@ def createCustomer():
 
 # Update customer
 @app.route('/customers/<int:id>', methods=['PUT'])
+@login_required
 def updateCustomer(id):
     foundCustomer=customersDAO.findCustomerById(id)
     print (foundCustomer)
@@ -81,6 +107,7 @@ def updateCustomer(id):
 
 # Delete customer
 @app.route('/customers/<int:id>', methods=['DELETE'])
+@login_required
 def deleteCustomer(id):
     customersDAO.delete(id)
 
@@ -107,6 +134,7 @@ def findProductsByPrice(price):
 
 # Create product
 @app.route('/products', methods=['POST'])
+@login_required
 def createProduct():
    
     if not request.json:
@@ -121,8 +149,9 @@ def createProduct():
     return jsonify(productsDAO.create(product))
 
 
-# Update customer
+# Update product
 @app.route('/products/<int:id>', methods=['PUT'])
+@login_required
 def updateProduct(id):
     foundProduct=productsDAO.findProductById(id)
     print (foundProduct)
@@ -141,8 +170,9 @@ def updateProduct(id):
 
     return jsonify(currentProduct)
 
-# Delete customer
+# Delete product
 @app.route('/products/<int:id>', methods=['DELETE'])
+@login_required
 def deleteProduct(id):
     productsDAO.delete(id)
 
@@ -152,6 +182,7 @@ def deleteProduct(id):
 # Orders
 # Create Order on Shopify
 @app.route('/orders', methods=['POST'])
+@login_required
 def createOrder():
 
     if not request.json:
@@ -187,18 +218,9 @@ def createOrder():
 
     return jsonify(new_order_id)
 
-#@app.route("/orders")
-#def shopifyOrder(order):
-   # url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders.json'
-   # headers = {'Content-type': 'application/json', 'X-Shopify-Access-Token': code.code}
-    #response = requests.post(url, json=order, headers=headers)
-   # response_test = response.json()
-   # response_test = response_test["draft_order"]["id"]
-
-    #return jsonify(response_test)
-
 # Get Shopify orders
 @app.route('/orders', methods=['GET'])
+@login_required
 def getOrders():
     url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders.json'
     headers = {'X-Shopify-Access-Token': code.code}
@@ -223,12 +245,69 @@ def getOrders():
 
 # Delete Shopify order
 @app.route('/orders/<int:id>', methods=['DELETE'])
+@login_required
 def deleteOrder(id):
     url = 'https://brians-flask-store.myshopify.com/admin/api/2021-10/draft_orders/' + str(id) + '.json'
     headers = {'X-Shopify-Access-Token': code.code}
     response = requests.delete(url, headers=headers)
 
     return jsonify({"done": True})
+
+## Sorting login and authorization
+class User(UserMixin):
+    def __init__(self, id: str, username: str, email: str, password: str):
+        self.id = id
+        self.username = username
+        self.email = email
+        self.password = password
+
+    @staticmethod
+    def get(id):
+        return users.get(id)
+
+    def __str__(self):
+        return f"<Id: {self.id}, Username: {self.username}, Email: {self.email}, Password: {self.password}>"
+
+    def __repr__(self):
+        return self.__str__()
+
+users: Dict[str, "User"] = {}
+all_users = usersDAO.allUsers()
+
+for key in range(len(all_users)):
+    users[key+1] = User(
+        id=all_users[key]["user_id"],
+        username=all_users[key]["name"],
+        email=all_users[key]["email"],
+        password=all_users[key]["password"],
+        )
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(int(user_id))
+
+@app.route("/login/<int:id>/<string:password>")
+def login(id, password):
+    user = load_user(id)
+    print(user)
+    if user and user.password == password:
+        login_user(user, remember=True)
+        print("Logged in!")
+        print(current_user.is_authenticated)
+        return redirect(url_for('index'))
+    return "<h1>Invalid user id or password</h1>"
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
+
+
+@app.route("/settings")
+@login_required
+def settings():
+    return "<h1>Route protected</h1>"
 
 if __name__ == "__main__":
     app.run(debug=True)
