@@ -27,7 +27,7 @@ class CustomersDAO:
 
     def findCustomerById(self, customer_id):
         cursor = self.db.cursor()
-        sql = 'select * from customers where customer_id = %s'
+        sql = 'SELECT * FROM customers WHERE customer_id = %s'
         values = [ customer_id ]
         cursor.execute(sql, values)
         result = cursor.fetchone()
@@ -35,7 +35,7 @@ class CustomersDAO:
 
     def findCustomersByCity(self, city):
         cursor = self.db.cursor()
-        sql = 'select * from customers where city = %s'
+        sql = 'SELECT * FROM customers WHERE city = %s'
         values = [ city ]
         cursor.execute(sql, values)
         results = cursor.fetchall()
@@ -48,7 +48,7 @@ class CustomersDAO:
 
     def findCustomersByCountry(self, country):
         cursor = self.db.cursor()
-        sql = 'select * from customers where country = %s'
+        sql = 'SELECT * FROM customers WHERE country = %s'
         values = [ country ]
         cursor.execute(sql, values)
         results = cursor.fetchall()
@@ -61,7 +61,7 @@ class CustomersDAO:
 
     def create(self, customer):
         cursor = self.db.cursor()
-        sql = "insert into customers (first_name, last_name, street_address, city, country, email) values (%s,%s,%s,%s,%s,%s)"
+        sql = "INSERT INTO customers (first_name, last_name, street_address, city, country, email) VALUES (%s,%s,%s,%s,%s,%s)"
         values = [
         customer['first_name'],
         customer['last_name'],
@@ -76,7 +76,7 @@ class CustomersDAO:
 
     def updateCustomer(self, customer):
         cursor = self.db.cursor()
-        sql = "update customers set first_name = %s, last_name = %s, street_address = %s, city = %s, country = %s, email = %s where customer_id = %s"
+        sql = "UPDATE customers SET first_name = %s, last_name = %s, street_address = %s, city = %s, country = %s, email = %s WHERE customer_id = %s"
         values = [
         customer['first_name'],
         customer['last_name'],
@@ -93,7 +93,7 @@ class CustomersDAO:
 
     def delete(self, customer_id):
         cursor = self.db.cursor()
-        sql = 'delete from customers where customer_id = %s'
+        sql = 'DELETE FROM customers WHERE customer_id = %s'
         values = [customer_id]
         cursor.execute(sql, values)
         self.db.commit()

@@ -309,5 +309,9 @@ def logout():
 def settings():
     return "<h1>Route protected</h1>"
 
+@app.route("/users/<string:username>", methods=['GET'])
+def findUserByUsername(username):
+    return jsonify(usersDAO.getUserByUsername(username))
+
 if __name__ == "__main__":
     app.run(debug=True)

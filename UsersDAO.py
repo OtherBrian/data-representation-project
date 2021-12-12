@@ -14,7 +14,7 @@ class UsersDAO:
 
     def allUsers(self):
         cursor = self.db.cursor()
-        sql = 'select * from users'
+        sql = 'SELECT * FROM users'
         cursor.execute(sql)
         results = cursor.fetchall()
         returnDict = {}
@@ -23,6 +23,17 @@ class UsersDAO:
             returnDict[idx] = resultAsDict
 
         return returnDict
+
+# Just returning the user ID that matches a particular username
+    def getUserByUsername(self, username):
+        cursor = self.db.cursor()
+        sql = 'SELECT user_id FROM users WHERE name = %s'
+        values = [ username ]
+        cursor.execute(sql, values)
+        results = cursor.fetchone()
+        
+        return results
+
 
     def convertToDict(self, result):
         colnames = ['user_id','name', 'email', 'password']

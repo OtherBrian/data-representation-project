@@ -15,7 +15,7 @@ class ProductsDAO:
 
     def allProducts(self):
         cursor = self.db.cursor()
-        sql = 'select * from products'
+        sql = 'SELECT * FROM products'
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
@@ -27,7 +27,7 @@ class ProductsDAO:
 
     def findProductById(self, product_id):
         cursor = self.db.cursor()
-        sql = 'select * from products where product_id = %s'
+        sql = 'SELECT * FROM products WHERE product_id = %s'
         values = [ product_id ]
         cursor.execute(sql, values)
         result = cursor.fetchone()
@@ -35,7 +35,7 @@ class ProductsDAO:
 
     def findProductsByPrice(self, price):
         cursor = self.db.cursor()
-        sql = 'select * from products where price <= %s'
+        sql = 'SELECT * FROM products WHERE price <= %s'
         values = [ price ]
         cursor.execute(sql, values)
         results = cursor.fetchall()
@@ -48,7 +48,7 @@ class ProductsDAO:
 
     def create(self, product):
         cursor = self.db.cursor()
-        sql = "insert into products (product_name, price, product_description, product_image_url) values (%s,%s,%s,%s)"
+        sql = "INSERT INTO products (product_name, price, product_description, product_image_url) VALUES (%s,%s,%s,%s)"
         values = [
         product['product_name'],
         product['price'],
@@ -61,7 +61,7 @@ class ProductsDAO:
 
     def updateProduct(self, product):
         cursor = self.db.cursor()
-        sql = "update products set product_name = %s, price = %s, product_description = %s, product_image_url = %s where product_id = %s"
+        sql = "UPDATE products SET product_name = %s, price = %s, product_description = %s, product_image_url = %s where product_id = %s"
         values = [
         product['product_name'],
         product['price'],
@@ -75,7 +75,7 @@ class ProductsDAO:
 
     def delete(self, product_id):
         cursor = self.db.cursor()
-        sql = 'delete from products where product_id = %s'
+        sql = 'DELETE FROM products WHERE product_id = %s'
         values = [product_id]
         cursor.execute(sql, values)
         self.db.commit()
