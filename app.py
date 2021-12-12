@@ -25,10 +25,8 @@ def index():
     username = "anonymous"
     if current_user.is_authenticated:  # type: ignore
         username = current_user.username  # type: ignore
-    return f"""
-        <h1>Hi {username}</h1>
-        <h3>Welcome to the store!</h3>
-    """
+    return render_template('index.html')
+
 
 # Customers first
 @app.route('/viewcustomers')
