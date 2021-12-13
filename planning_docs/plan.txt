@@ -35,4 +35,3 @@ Plan:
 
 Issues to address
 
-500 server error when trying to create customer. Probably caused by the auto increment ID. Find out how to resolve this.

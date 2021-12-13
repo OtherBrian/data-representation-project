@@ -2,5 +2,5 @@ mysql={
     'host':"localhost",
     'user':'root',
     'password':'password',
-    'database': 'storeDB'
+    'database': 'cofeedb'
 }
