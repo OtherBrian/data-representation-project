@@ -5,7 +5,10 @@
 
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">              
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">   
+    
+    <script type="text/javascript" src="scripts.js"></script>
+
 </head>
 <body>
     <ul>
@@ -19,26 +22,25 @@
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
         <p>Username <input type="text" id="username"> Password <input type="text" id="password"> <button onclick="login()">Login</button></p>
 
-
 <script>
+    // Login form
     function login(){
-                username = document.getElementById("username").value;
-                password = document.getElementById("password").value;
-               $.ajax({
-                   url:'http://127.0.0.1:5000/users/' + username,
-                   method:'GET',
-                   datatype:'JSON',
-                   success:function(results){
-                        window.location.href = 'http://127.0.0.1:5000/login/' + results + '/' + password
-                   },
-                   error:function (xhr,status,error){
-                       console.log ("error "+error +" code:"+status)
-                   }
+        username = document.getElementById("username").value;
+        password = document.getElementById("password").value;
+       $.ajax({
+           url:'http://127.0.0.1:5000/users/' + username,
+           method:'GET',
+           datatype:'JSON',
+           success:function(results){
+                window.location.href = 'http://127.0.0.1:5000/login/' + results + '/' + password
+           },
+           error:function (xhr,status,error){
+               console.log ("error "+error +" code:"+status)
+           }
 
-               })
-               
-            }
-
+       })
+       
+    }
 </script>
 </body>
 </html>

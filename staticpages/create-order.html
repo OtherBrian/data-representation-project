@@ -4,7 +4,11 @@
             
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
             <link rel="stylesheet" type="text/css"  href="style.css">
+
+            <script type="text/javascript" src="scripts.js"></script>
+
                 
     </head>
     <body>
@@ -18,8 +22,10 @@
           </ul>
 
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
+
         <h1 style="display: block;">Create Order</h1>
-        <p id="succesfullOrder" style="display: none;">Order successfully created! Order ID is: <span id="createdOrderId"></span></p>
+
+        <p id="succesfullOrder" style="display:none;">Order successfully created! Order ID is: <span id="createdOrderId"></span></p>
         <div id="orderCreation" style="display:none">
             <h3>Order Summary</h3>
             <p id="selectedProduct">Selected Product: <span id="selectedProductName"></span> &emsp; Total Cost: €<span id="selectedProductPrice"></span></p>
@@ -131,9 +137,10 @@
 
         <script>
 
-        order = {}
-        
-        populateCustomerTable()
+      //  order = {}
+
+        populateProductTable()
+        populateCustomerTable()        
         </script>
     </body>
 </html>

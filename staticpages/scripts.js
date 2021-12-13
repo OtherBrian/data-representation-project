@@ -1,3 +1,7 @@
+order = {}
+
+// Products Section
+
 function showProductCreate(){
     document.getElementById('product-display').style.display = "none"
     document.getElementById('product-update-button').style.display = "none"
@@ -136,9 +140,7 @@ function clearProductForm() {
     }
 
 function productCreate(){
-    console.log("in productCreate")
     product= getProductFromForm()
-    console.log(product)
     $.ajax({
         url:"/products",
         data:JSON.stringify(product),
@@ -146,7 +148,6 @@ function productCreate(){
         dataType:"JSON",
         contentType: "application/json; charset=utf-8",
         success:function(result){
-            console.log(result)
             populateProductTable() 
             showProductDisplay()
             clearProductForm()
@@ -171,7 +172,6 @@ function updateProductServer(product){
         dataType: "JSON",
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            console.log(result)
             updateProductTableRow(product)
             showProductDisplay()
             clearProductForm()
@@ -182,6 +182,31 @@ function updateProductServer(product){
         }
     })
 }
+
+function filterProductTable(){
+    filter_price = document.getElementById("filterPrice").value
+   $.ajax({
+       url:'http://127.0.0.1:5000/products/price/' + filter_price,
+       method:'GET',
+       datatype:'JSON',
+       success:function(results){
+            //var Table = document.getElementById("productTable");
+            for (let i = 1; i < document.getElementById("productTable").rows.length; i++){
+                document.getElementById("productTable").rows[i].innerHTML = "";
+            }
+            for (product of results){
+                 addProductToTable(product)
+            }
+            document.getElementById("showAllButton").style.display = "block"
+       },
+       error:function (xhr,status,error){
+           console.log ("error "+error +" code:"+status)
+       }
+
+   })
+   
+}
+
 function productDelete(thisElem){
     var tableElement = document.getElementById('productTable');
     var rowElement = thisElem.parentNode.parentNode;
@@ -279,8 +304,9 @@ function addProductToTable(product){
     cell8 = rowElem.insertCell(7)
     cell8.innerHTML = '<button onclick="productDelete(this)">Delete Product</button>'
      }
-    populateProductTable()
 
+    
+// Customers Section
 
     function showCustomerCreate(){
 document.getElementById('customer-display').style.display = "none"
@@ -292,6 +318,8 @@ document.getElementById("createCustomerUpdateFormID").style.display = "none"
 document.getElementById('product-display').style.display = "none"
 document.getElementById('product-update-button').style.display = "none"
 document.getElementById("createUpdateProductFormID").style.display = "none"
+document.getElementById('filterCustomerButtons').style.display = "none"
+
 
 }
 function showCustomerUpdate(thisElem){
@@ -395,6 +423,55 @@ $.ajax({
     }
 })
 }
+
+function filterCustomerTableCity(){
+    filter_city = document.getElementById("filterCity").value
+   $.ajax({
+       url:'http://127.0.0.1:5000/customers/city/' + filter_city,
+       method:'GET',
+       datatype:'JSON',
+       success:function(results){
+            //var Table = document.getElementById("productTable");
+            for (let i = 1; i < document.getElementById("customerTable").rows.length; i++){
+                document.getElementById("customerTable").rows[i].innerHTML = "";
+            }
+            for (customer of results){
+                addCustomerToTable(customer)
+            }
+            document.getElementById('showAllButton').style.display = "block"
+       },
+       error:function (xhr,status,error){
+           console.log ("error "+error +" code:"+status)
+       }
+
+   })
+   
+}
+function filterCustomerTableCountry(){
+    filter_country = document.getElementById("filterCountry").value
+    console.log(filter_country)
+   $.ajax({
+       url:'http://127.0.0.1:5000/customers/country/' + filter_country,
+       method:'GET',
+       datatype:'JSON',
+       success:function(results){
+            //var Table = document.getElementById("productTable");
+            for (let i = 1; i < document.getElementById("customerTable").rows.length; i++){
+                document.getElementById("customerTable").rows[i].innerHTML = "";
+            }
+            for (customer of results){
+                addCustomerToTable(customer)
+            }
+            document.getElementById('showAllButton').style.display = "block"
+       },
+       error:function (xhr,status,error){
+           console.log ("error "+error +" code:"+status)
+       }
+
+   })
+   
+}
+
 function customerDelete(thisElem){
 var tableElement = document.getElementById('customerTable');
 var rowElement = thisElem.parentNode.parentNode;
@@ -422,6 +499,7 @@ rowElement.cells[4].firstChild.textContent = customer.city
 rowElement.cells[5].firstChild.textContent = customer.country
 rowElement.cells[6].firstChild.textContent = customer.email
 }
+
 function getCustomerFromForm(){
 var form = document.getElementById('createCustomerUpdateForm')
 
@@ -440,6 +518,8 @@ function showCustomerDisplay() {
     document.getElementById('customer-create-update').style.display = "none"
     document.getElementById('product-display').style.display = "none"
     document.getElementById('product-create-update').style.display = "none"
+    document.getElementById('showAllButton').style.display = "none"
+
 
 }
 
@@ -459,7 +539,7 @@ $.ajax({
    }
 
 })
-
+document.getElementById('showAllButton').style.display = "none"
 }
 function addCustomerToTable(customer){
 tableElem = document.getElementById("customerTable")
@@ -486,3 +566,27 @@ cell9.innerHTML = '<button onclick="showCustomerUpdate(this)">Update Customer</b
 cell10 = rowElem.insertCell(9)
 cell10.innerHTML = '<button onclick="customerDelete(this)">Delete Customer</button>'
  }
+
+// Orders section
+
+
+
+
+     // Login form
+     function login(){
+        username = document.getElementById("username").value;
+        password = document.getElementById("password").value;
+       $.ajax({
+           url:'http://127.0.0.1:5000/users/' + username,
+           method:'GET',
+           datatype:'JSON',
+           success:function(results){
+                window.location.href = 'http://127.0.0.1:5000/login/' + results + '/' + password
+           },
+           error:function (xhr,status,error){
+               console.log ("error "+error +" code:"+status)
+           }
+
+       })
+       
+    }

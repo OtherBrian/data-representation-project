@@ -34,7 +34,7 @@
         <script>
 
 
-            function doDelete(thisElem){
+            function orderDelete(thisElem){
                 var tableElement = document.getElementById('orderTable');
                 var rowElement = thisElem.parentNode.parentNode;
                 var index = rowElement.rowIndex;
@@ -53,7 +53,7 @@
                 
             }
 
-            function populateTable(){
+            function populateOrderTable(){
                 //ajax getAll
                $.ajax({
                    url:'http://127.0.0.1:5000/orders',
@@ -94,9 +94,9 @@
                 cell8 = rowElem.insertCell(7)
                 cell8.innerHTML = order.cost
                 cell9 = rowElem.insertCell(8)
-                cell9.innerHTML = '<button onclick="doDelete(this)">delete</button>'
+                cell9.innerHTML = '<button onclick="orderDelete(this)">delete</button>'
                  }
-            populateTable()
+                 populateOrderTable()
         </script>
     </body>
 </html>
