@@ -267,7 +267,7 @@ function populateProductTable(){
        }
 
    })
-   
+   document.getElementById("showAllButton").style.display = "none"
 }
 function addProductToTable(product){
     tableElem = document.getElementById("productTable")
@@ -527,7 +527,7 @@ function showCustomerDisplay() {
 function populateCustomerTable(){
 //ajax getAll
 $.ajax({
-   url: host + 'customers',
+   url: host + '/customers',
    method:'GET',
    datatype:'JSON',
    success:function(results){

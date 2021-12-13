@@ -10,13 +10,17 @@
     <script type="text/javascript" src="scripts.js"></script>
 
 </head>
-<body>
+<body style="background-color: #DDCA7D;">
     <ul>
         <li><a href="/">Home</a></li>
+        <li><a href="/viewproducts">Products</a></li>
         <li><a class="active" href="/login">Login</a></li>
       </ul>
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
-        <p>Username <input type="text" id="username"> Password <input type="text" id="password"> <button onclick="login()">Login</button></p>
+        
+        <p>Username <input type="text" id="username"></p> 
+        <p>Password <input type="text" id="password"></p> 
+        <p><button onclick="login()">Login</button></p>
 
 <script>
     host = window.location.origin

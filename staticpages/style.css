@@ -1,4 +1,4 @@
-h1   {color: #533E2D;}
+h1, h3   {color: #533E2D;}
 p    {color: #A27035;}
 button {background-color:bisque;
         border-radius: 12px;}

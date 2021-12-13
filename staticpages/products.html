@@ -14,17 +14,14 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a class="active" href="/viewproducts">Products</a></li>
-            <li><a href="/viewcustomers">Customers</a></li>
-            <li><a href="/vieworders">Orders</a></li>
-            <li><a href="/create-order">Create Order</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/login">Login</a></li>
           </ul>
 
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
         
         <div id="product-display">
             <h1>Products</h2>
-            <p>Only show products below € <input type="number" id="filterPrice" step="0.01"> <button onclick="filterProductTable()">Filter</button><button id="showAllButton" onclick="populateTable()" style="display:none">Show All</button>
+            <p>Only show products below € <input type="number" id="filterPrice" step="0.01"> <button onclick="filterProductTable()">Filter</button><button id="showAllButton" onclick="populateProductTable()" style="display:none">Show All</button>
             </p>
             <table id="productTable" class="product">
                 <tr>

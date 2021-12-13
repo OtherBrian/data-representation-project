@@ -115,7 +115,6 @@ def deleteCustomer(id):
 # Products
 
 @app.route('/viewproducts')
-@login_required
 def products():
     return render_template('products.html')
 
