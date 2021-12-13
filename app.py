@@ -23,9 +23,9 @@ login_manager = LoginManager(app)
 @app.route('/')
 def index():
     if current_user.is_authenticated:  # type: ignore
-        return render_template('index.html')
+        return render_template('index-authed.html')
     else:
-        return render_template('index-anon.html')
+        return render_template('index.html')
 
 
 # Customers first
