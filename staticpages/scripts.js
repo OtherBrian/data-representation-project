@@ -1,4 +1,5 @@
 order = {}
+host = window.location.origin
 
 // Products Section
 
@@ -66,7 +67,7 @@ function orderSummary(order) {
 function createOrder() {
 
     $.ajax({
-        url:"/orders",
+        url: host + "/orders",
         data:JSON.stringify(order),
         method:"POST",
         dataType:"JSON",
@@ -142,7 +143,7 @@ function clearProductForm() {
 function productCreate(){
     product= getProductFromForm()
     $.ajax({
-        url:"/products",
+        url: host + "/products",
         data:JSON.stringify(product),
         method:"POST",
         dataType:"JSON",
@@ -166,7 +167,7 @@ function productUpdate(){
 }
 function updateProductServer(product){
    $.ajax({
-        url: "/products/"+product.product_id,
+        url: host + "/products/"+product.product_id,
         data: JSON.stringify(product),
         method: "PUT",
         dataType: "JSON",
@@ -186,7 +187,7 @@ function updateProductServer(product){
 function filterProductTable(){
     filter_price = document.getElementById("filterPrice").value
    $.ajax({
-       url:'http://127.0.0.1:5000/products/price/' + filter_price,
+       url: host + "/products/price/" + filter_price,
        method:'GET',
        datatype:'JSON',
        success:function(results){
@@ -213,7 +214,7 @@ function productDelete(thisElem){
     var index = rowElement.rowIndex;
     product_id = rowElement.getAttribute("id");
     $.ajax({
-        url:"/products/"+product_id,
+        url: host + "/products/"+product_id,
         method:"DELETE",
         dateType:"JSON",
         success:function(result){
@@ -253,7 +254,7 @@ function getProductFromForm(){
 function populateProductTable(){
     //ajax getAll
    $.ajax({
-       url:'http://127.0.0.1:5000/products',
+       url: host + '/products',
        method:'GET',
        datatype:'JSON',
        success:function(results){
@@ -381,7 +382,7 @@ console.log("in customerCreate")
 customer= getCustomerFromForm()
 console.log(customer)
 $.ajax({
-    url:"/customers",
+    url: host + "/customers",
     data:JSON.stringify(customer),
     method:"POST",
     dataType:"JSON",
@@ -406,7 +407,7 @@ updateCustomerServer(customer)
 }
 function updateCustomerServer(customer){
 $.ajax({
-    url: "/customers/"+customer.customer_id,
+    url: host + "/customers/"+customer.customer_id,
     data: JSON.stringify(customer),
     method: "PUT",
     dataType: "JSON",
@@ -427,7 +428,7 @@ $.ajax({
 function filterCustomerTableCity(){
     filter_city = document.getElementById("filterCity").value
    $.ajax({
-       url:'http://127.0.0.1:5000/customers/city/' + filter_city,
+       url: host + '/customers/city/' + filter_city,
        method:'GET',
        datatype:'JSON',
        success:function(results){
@@ -451,7 +452,7 @@ function filterCustomerTableCountry(){
     filter_country = document.getElementById("filterCountry").value
     console.log(filter_country)
    $.ajax({
-       url:'http://127.0.0.1:5000/customers/country/' + filter_country,
+       url: host + '/customers/country/' + filter_country,
        method:'GET',
        datatype:'JSON',
        success:function(results){
@@ -478,7 +479,7 @@ var rowElement = thisElem.parentNode.parentNode;
 var index = rowElement.rowIndex;
 customer_id = rowElement.getAttribute("id");
 $.ajax({
-    url:"/customers/"+customer_id,
+    url: host + "/customers/"+customer_id,
     method:"DELETE",
     dateType:"JSON",
     success:function(result){
@@ -526,7 +527,7 @@ function showCustomerDisplay() {
 function populateCustomerTable(){
 //ajax getAll
 $.ajax({
-   url:'http://127.0.0.1:5000/customers',
+   url: host + 'customers',
    method:'GET',
    datatype:'JSON',
    success:function(results){
@@ -577,7 +578,7 @@ cell10.innerHTML = '<button onclick="customerDelete(this)">Delete Customer</butt
         username = document.getElementById("username").value;
         password = document.getElementById("password").value;
        $.ajax({
-           url:'http://127.0.0.1:5000/users/' + username,
+           url: host + '/users/' + username,
            method:'GET',
            datatype:'JSON',
            success:function(results){

@@ -12,27 +12,24 @@
 </head>
 <body>
     <ul>
-        <li><a href="./index.html">Home</a></li>
-        <li><a href="./products.html">Products</a></li>
-        <li><a href="./customers.html">Customers</a></li>
-        <li><a href="./orders.html">Orders</a></li>
-        <li><a href="./create-order.html">Create Order</a></li>
-        <li><a class="active" href="./login.html">Login</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a class="active" href="/login">Login</a></li>
       </ul>
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
         <p>Username <input type="text" id="username"> Password <input type="text" id="password"> <button onclick="login()">Login</button></p>
 
 <script>
+    host = window.location.origin
     // Login form
     function login(){
         username = document.getElementById("username").value;
         password = document.getElementById("password").value;
        $.ajax({
-           url:'http://127.0.0.1:5000/users/' + username,
+           url: host + '/users/' + username,
            method:'GET',
            datatype:'JSON',
            success:function(results){
-                window.location.href = 'http://127.0.0.1:5000/login/' + results + '/' + password
+                window.location.href = host + '/login/' + results + '/' + password
            },
            error:function (xhr,status,error){
                console.log ("error "+error +" code:"+status)

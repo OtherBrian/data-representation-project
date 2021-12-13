@@ -22,10 +22,10 @@ login_manager = LoginManager(app)
 
 @app.route('/')
 def index():
-    username = "anonymous"
     if current_user.is_authenticated:  # type: ignore
-        username = current_user.username  # type: ignore
-    return render_template('index.html')
+        return render_template('index.html')
+    else:
+        return render_template('index-anon.html')
 
 
 # Customers first
@@ -113,6 +113,12 @@ def deleteCustomer(id):
 
 
 # Products
+
+@app.route('/viewproducts')
+@login_required
+def products():
+    return render_template('products.html')
+
 # get all products
 @app.route('/products')
 def getAllProducts():
@@ -178,6 +184,17 @@ def deleteProduct(id):
 
 
 # Orders
+
+@app.route('/vieworders')
+@login_required
+def orders():
+    return render_template('orders.html')
+
+@app.route('/create-order')
+@login_required
+def createOrdersPage():
+    return render_template('create-order.html')
+
 # Create Order on Shopify
 @app.route('/orders', methods=['POST'])
 @login_required
@@ -283,6 +300,10 @@ for key in range(len(all_users)):
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(int(user_id))
+
+@app.route("/login")
+def login_page():
+    return render_template("login.html")
 
 @app.route("/login/<int:id>/<string:password>")
 def login(id, password):
