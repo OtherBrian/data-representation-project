@@ -21,7 +21,7 @@ class UsersDAO:
         for idx, result in enumerate(results):
             resultAsDict = self.convertToDict(result)
             returnDict[idx] = resultAsDict
-
+        cursor.close()
         return returnDict
 
 # Just returning the user ID that matches a particular username
@@ -31,7 +31,7 @@ class UsersDAO:
         values = [ username ]
         cursor.execute(sql, values)
         results = cursor.fetchone()
-        
+        cursor.close()
         return results
 
 

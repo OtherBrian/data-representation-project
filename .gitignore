@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # Extras
-*config.py
+dbconfig.py
 code.py

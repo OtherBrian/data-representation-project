@@ -22,7 +22,7 @@ class ProductsDAO:
         for result in results:
             resultAsDict = self.convertToDict(result)
             returnArray.append(resultAsDict)
-
+        cursor.close()
         return returnArray
 
     def findProductById(self, product_id):
@@ -31,6 +31,7 @@ class ProductsDAO:
         values = [ product_id ]
         cursor.execute(sql, values)
         result = cursor.fetchone()
+        cursor.close()
         return self.convertToDict(result)
 
     def findProductsByPrice(self, price):
@@ -43,7 +44,7 @@ class ProductsDAO:
         for result in results:
             resultAsDict = self.convertToDict(result)
             returnArray.append(resultAsDict)
-
+        cursor.close()
         return returnArray
 
     def create(self, product):
@@ -57,6 +58,7 @@ class ProductsDAO:
         ]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return cursor.lastrowid
 
     def updateProduct(self, product):
@@ -71,6 +73,7 @@ class ProductsDAO:
         ]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return product
 
     def delete(self, product_id):
@@ -79,6 +82,7 @@ class ProductsDAO:
         values = [product_id]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return {}
 
     def convertToDict(self, result):

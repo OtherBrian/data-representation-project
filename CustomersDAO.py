@@ -22,7 +22,7 @@ class CustomersDAO:
         for result in results:
             resultAsDict = self.convertToDict(result)
             returnArray.append(resultAsDict)
-
+        cursor.close()
         return returnArray
 
     def findCustomerById(self, customer_id):
@@ -31,6 +31,7 @@ class CustomersDAO:
         values = [ customer_id ]
         cursor.execute(sql, values)
         result = cursor.fetchone()
+        cursor.close()
         return self.convertToDict(result)
 
     def findCustomersByCity(self, city):
@@ -43,7 +44,7 @@ class CustomersDAO:
         for result in results:
             resultAsDict = self.convertToDict(result)
             returnArray.append(resultAsDict)
-
+        cursor.close()
         return returnArray
 
     def findCustomersByCountry(self, country):
@@ -56,7 +57,7 @@ class CustomersDAO:
         for result in results:
             resultAsDict = self.convertToDict(result)
             returnArray.append(resultAsDict)
-
+        cursor.close()
         return returnArray
 
     def create(self, customer):
@@ -72,6 +73,7 @@ class CustomersDAO:
         ]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return cursor.lastrowid
 
     def updateCustomer(self, customer):
@@ -89,6 +91,7 @@ class CustomersDAO:
         ]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return customer
 
     def delete(self, customer_id):
@@ -97,6 +100,7 @@ class CustomersDAO:
         values = [customer_id]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return {}
 
     def convertToDict(self, result):
