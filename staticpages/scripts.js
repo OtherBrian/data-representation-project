@@ -29,7 +29,7 @@ function selectProduct(thisElem, order){
     order.product_name = product.product_name
     order.price = product.price
     orderSummary(order)
-
+    populateCustomerTable()
     return order
 }
 
@@ -111,12 +111,12 @@ function readProductFromRow(rowElement){
     product.product_image_url = rowElement.cells[4].firstChild.textContent
 
     return product
-    
+
 }
 function populateProductForm(product){
     var form = document.getElementById('createUpdateProductForm')
 
-    
+
     form.querySelector('input[name="product_id"]').value = product.product_id
     form.querySelector('input[name="product_id"]').disabled=true
     form.querySelector('input[name="product_name"]').value = product.product_name
@@ -127,7 +127,7 @@ function populateProductForm(product){
         form.querySelector('input[name="product_image_url"]').value = product.product_image_url
     } else {
         form.querySelector('input[name="product_image_url"]').value = "https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/image-missing.png"
-    }     
+    }
 }
 function clearProductForm() {
         var form = document.getElementById('createUpdateProductForm')
@@ -149,7 +149,7 @@ function productCreate(){
         dataType:"JSON",
         contentType: "application/json; charset=utf-8",
         success:function(result){
-            populateProductTable() 
+            populateProductTable()
             showProductDisplay()
             clearProductForm()
 
@@ -158,12 +158,12 @@ function productCreate(){
             console.log("error"+error)
         }
     })
-   
+
 }
 function productUpdate(){
     product = getProductFromForm()
     updateProductServer(product)
-    
+
 }
 function updateProductServer(product){
    $.ajax({
@@ -198,14 +198,16 @@ function filterProductTable(){
             for (product of results){
                  addProductToTable(product)
             }
-            document.getElementById("showAllButton").style.display = "block"
+            if (window.location.href.indexOf("viewproducts") > -1) {
+                document.getElementById("showAllButton").style.display = "block"
+            }
        },
        error:function (xhr,status,error){
            console.log ("error "+error +" code:"+status)
        }
 
    })
-   
+
 }
 
 function productDelete(thisElem){
@@ -224,7 +226,7 @@ function productDelete(thisElem){
             console.log(error)
         }
     })
-    
+
 }
 function updateProductTableRow(product){
     rowElement = document.getElementById(product.product_id)
@@ -291,22 +293,24 @@ function addProductToTable(product){
     img.width = 100
     img.height = 100
     // If no image URL is entered, use this backup URL.
-    if (product.product_image_url.length >= 1){ 
+    if (product.product_image_url.length >= 1){
         img.src = product.product_image_url
     } else {
         img.src = "https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/image-missing.png"
     }
     cell5 = rowElem.insertCell(4)
     cell5.append(img)
-    cell6 = rowElem.insertCell(5)
-    cell6.innerHTML = '<button onclick="selectProduct(this, order)">Select Product</button>'
-    cell7 = rowElem.insertCell(6)
-    cell7.innerHTML = '<button onclick="showProductUpdate(this)">Update Product</button>'
-    cell8 = rowElem.insertCell(7)
-    cell8.innerHTML = '<button onclick="productDelete(this)">Delete Product</button>'
+    if (window.location.href.indexOf("create-order") > -1) {
+        cell6 = rowElem.insertCell(5)
+        cell6.innerHTML = '<button onclick="selectProduct(this, order)">Select Product</button>'
+        cell7 = rowElem.insertCell(6)
+        cell7.innerHTML = '<button onclick="showProductUpdate(this)">Update Product</button>'
+        cell8 = rowElem.insertCell(7)
+        cell8.innerHTML = '<button onclick="productDelete(this)">Delete Product</button>'
+    }
      }
 
-    
+
 // Customers Section
 
     function showCustomerCreate(){
@@ -362,7 +366,7 @@ form.querySelector('input[name="last_name"]').value = customer.last_name
 form.querySelector('input[name="street_address"]').value = customer.street_address
 form.querySelector('input[name="city"]').value = customer.city
 form.querySelector('input[name="country"]').value = customer.country
-form.querySelector('input[name="email"]').value = customer.email         
+form.querySelector('input[name="email"]').value = customer.email
 }
 function clearCustomerForm() {
     var form = document.getElementById('createCustomerUpdateForm')
@@ -389,7 +393,7 @@ $.ajax({
     contentType: "application/json; charset=utf-8",
     success:function(result){
         console.log(result)
-        populateCustomerTable() 
+        populateCustomerTable()
         showCustomerDisplay()
         clearCustomerForm()
 
@@ -446,7 +450,7 @@ function filterCustomerTableCity(){
        }
 
    })
-   
+
 }
 function filterCustomerTableCountry(){
     filter_country = document.getElementById("filterCountry").value
@@ -470,7 +474,7 @@ function filterCustomerTableCountry(){
        }
 
    })
-   
+
 }
 
 function customerDelete(thisElem){
@@ -560,12 +564,20 @@ cell6 = rowElem.insertCell(5)
 cell6.innerHTML = customer.country
 cell7 = rowElem.insertCell(6)
 cell7.innerHTML = customer.email
-cell8 = rowElem.insertCell(7)
-cell8.innerHTML = '<button onclick="selectCustomer(this, order)">Select Customer</button>'
-cell9 = rowElem.insertCell(8)
-cell9.innerHTML = '<button onclick="showCustomerUpdate(this)">Update Customer</button>'
-cell10 = rowElem.insertCell(9)
-cell10.innerHTML = '<button onclick="customerDelete(this)">Delete Customer</button>'
+if (window.location.href.indexOf("create-order") > -1) {
+    cell8 = rowElem.insertCell(7)
+    cell8.innerHTML = '<button onclick="selectCustomer(this, order)">Select Customer</button>'
+    cell9 = rowElem.insertCell(8)
+    cell9.innerHTML = '<button onclick="showCustomerUpdate(this)">Update Customer</button>'
+    cell10 = rowElem.insertCell(9)
+    cell10.innerHTML = '<button onclick="customerDelete(this)">Delete Customer</button>'
+
+} else {
+    cell8 = rowElem.insertCell(7)
+    cell8.innerHTML = '<button onclick="showCustomerUpdate(this)">Update Customer</button>'
+    cell9 = rowElem.insertCell(8)
+    cell9.innerHTML = '<button onclick="customerDelete(this)">Delete Customer</button>'
+}
  }
 
 // Orders section
@@ -589,5 +601,5 @@ cell10.innerHTML = '<button onclick="customerDelete(this)">Delete Customer</butt
            }
 
        })
-       
+
     }

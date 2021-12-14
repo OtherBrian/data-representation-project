@@ -22,11 +22,15 @@ login_manager = LoginManager(app)
 
 @app.route('/')
 def index():
+    print(current_user.is_authenticated)
     if current_user.is_authenticated:  # type: ignore
         return render_template('index-authed.html')
     else:
         return render_template('index.html')
 
+@app.route('/home')
+def index_authed():
+    return render_template('index-authed.html')
 
 # Customers first
 @app.route('/viewcustomers')
@@ -63,7 +67,7 @@ def findCustomersByCountry(country):
 @app.route('/customers', methods=['POST'])
 @login_required
 def createCustomer():
-   
+
     if not request.json:
         abort(400)
 
@@ -139,7 +143,7 @@ def findProductsByPrice(price):
 @app.route('/products', methods=['POST'])
 @login_required
 def createProduct():
-   
+
     if not request.json:
         abort(400)
 
@@ -312,8 +316,8 @@ def login(id, password):
         login_user(user, remember=True)
         print("Logged in!")
         print(current_user.is_authenticated)
-        return redirect(url_for('index'))
-    return "<h1>Invalid user id or password</h1>"
+        return redirect(url_for("index_authed"))
+    return ""
 
 @app.route("/logout")
 @login_required
@@ -321,11 +325,6 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
-
-@app.route("/settings")
-@login_required
-def settings():
-    return "<h1>Route protected</h1>"
 
 @app.route("/users/<string:username>", methods=['GET'])
 def findUserByUsername(username):

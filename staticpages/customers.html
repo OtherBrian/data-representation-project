@@ -1,19 +1,19 @@
 <html>
-    <head>    
+    <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            
+
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
             <link rel="stylesheet" type="text/css"  href="style.css">
-            
+
             <script type="text/javascript" src="scripts.js"></script>
 
 
     </head>
     <body>
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li><a class="active" href="/viewcustomers">Customers</a></li>
             <li><a href="/vieworders">Orders</a></li>
             <li><a href="/create-order">Create Order</a></li>
@@ -21,7 +21,7 @@
           </ul>
 
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
-        
+
         <div id="customer-create-update" style="display:none">
             <h2>Create / Update Customer</h2>
             <table id="createCustomerUpdateForm">
@@ -37,25 +37,25 @@
                     <td>Last Name</td>
                     <td><input type="text" name="last_name"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Street Address</td>
                     <td><input type="text" name="street_address"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>City</td>
                     <td><input type="text" name="city"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Country</td>
                     <td><input type="text" name="country"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Email</td>
                     <td><input type="email" name="email"></td>
                 </tr>
                 <tr>
                     <td></td><td>
-                        <button id="customer-create-button" onclick="customerCreate()">Create</button>     
+                        <button id="customer-create-button" onclick="customerCreate()">Create</button>
                         <button id="customer-update-button" onclick="customerUpdate()">update</button>
                     </td>
                 </tr>
@@ -73,7 +73,7 @@
                 <tr>
                     <th>Customer ID</th><th>First Name</th><th>Last Name</th><th>Street Address</th><th>City</th><th>Country</th><th>Email</th><th></th><th></th>
                 </tr>
-                
+
             </table>
         </div>
 

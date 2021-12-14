@@ -1,14 +1,14 @@
 <html>
     <head>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            
+
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <link rel="stylesheet" type="text/css"  href="style.css">
     </head>
     <body>
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li><a href="/viewcustomers">Customers</a></li>
             <li><a class="active" href="/vieworders">Orders</a></li>
             <li><a href="/create-order">Create Order</a></li>
@@ -25,13 +25,13 @@
                 <tr>
                     <th>Order ID</th><th>Name</th><th>Email Address</th><th>Street Address</th><th>City</th><th>Country</th><th>Product</th><th>Total</th><th></th>
                 </tr>
-                
+
             </table>
 
         </div>
 
         <script>
-            
+
             host = window.location.origin
 
 
@@ -51,7 +51,7 @@
                         console.log(error)
                     }
                 })
-                
+
             }
 
             function populateOrderTable(){
@@ -70,7 +70,7 @@
                    }
 
                })
-               
+
             }
             function addOrderToTable(order){
                 //console.log("working so far")

@@ -10,7 +10,7 @@
     </head>
     <body style="background-color: #DDCA7D;">
         <ul>
-            <li><a class="active" href="/">Home</a></li>
+            <li><a class="active" href="/home">Home</a></li>
             <li><a href="/viewcustomers">Customers</a></li>
             <li><a href="/vieworders">Orders</a></li>
             <li><a href="create-order">Create Order</a></li>
@@ -31,7 +31,7 @@
           <p>Here you'll be able to view and delete the orders on the store. This is all done through the use of AJAX, however these orders are not stored on a local databsase.<br>
               They are in fact being served from Shopify, the popular ecommerce platform. I have created a dummy Shopify store to which I can make API calls and create what are known as Draft Orders via the Draft Order API.<br>
               If you're curious, I had to use the Draft Order API rather than the usual Orders API because my products are not hosted on Shopify. The Orders API requires Shopify Product IDs, which my products do not have, so I've passed them as custom products to the Draft Orders API.<br>
-    
+
             <h3>The Create Order Page</h3>
             <p>This page is a combination of the Products and Customers pages from before. The user can first select a product (they can also create, update and delete existing products here), then select a customer.<br>
             Once they are happy with their selections, they can hit the Create Order button, and it'll make a POST request to my Shopify store's Draft Orders API and hopefully create the order. The user can then return to the Orders Page and see it there.</p>

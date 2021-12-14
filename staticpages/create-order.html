@@ -1,7 +1,7 @@
 <html>
     <head>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            
+
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -9,13 +9,13 @@
 
             <script type="text/javascript" src="scripts.js"></script>
 
-                
+
     </head>
     <body>
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li><a href="/viewcustomers">Customers</a></li>
-            <li><a href="/vieworders.html">Orders</a></li>
+            <li><a href="/vieworders">Orders</a></li>
             <li><a class="active" href="/create-order">Create Order</a></li>
             <li><a href="/logout">Logout</a></li>
           </ul>
@@ -54,17 +54,17 @@
                     <td>Price</td>
                     <td><input type="number" name="price"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Product Description</td>
                     <td><input type="text" name="product_description"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Product Image URL</td>
                     <td><input type="url" name="product_image_url"></td>
                 </tr>
                 <tr>
                     <td></td><td>
-                        <button id="product-create-button" onclick="productCreate()">Create</button>     
+                        <button id="product-create-button" onclick="productCreate()">Create</button>
                         <button id="product-update-button" onclick="productUpdate()">Update</button>
                     </td>
                 </tr>
@@ -77,7 +77,7 @@
                 <tr>
                     <th>Product ID</th><th>Product Name</th><th>Price</th><th>Product Description</th><th>Product Image</th><th></th><th></th><th></th>
                 </tr>
-                
+
             </table>
 
         </div>
@@ -97,25 +97,25 @@
                     <td>Last Name</td>
                     <td><input type="text" name="last_name"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Street Address</td>
                     <td><input type="text" name="street_address"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>City</td>
                     <td><input type="text" name="city"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Country</td>
                     <td><input type="text" name="country"></td>
                 </tr>
-                <tr>    
+                <tr>
                     <td>Email</td>
                     <td><input type="email" name="email"></td>
                 </tr>
                 <tr>
                     <td></td><td>
-                        <button id="customer-create-button" onclick="customerCreate()">Create</button>     
+                        <button id="customer-create-button" onclick="customerCreate()">Create</button>
                         <button id="customer-update-button" onclick="customerUpdate()">Update</button>
                     </td>
                 </tr>
@@ -128,18 +128,16 @@
                 <tr>
                     <th>Customer ID</th><th>First Name</th><th>Last Name</th><th>Street Address</th><th>City</th><th>Country</th><th>Email</th><th></th><th></th>
                 </tr>
-                
+
             </table>
-    
+
         </div>
 
 
         <script>
 
-      //  order = {}
-
         populateProductTable()
-        populateCustomerTable()        
+        populateCustomerTable()
         </script>
     </body>
 </html>
