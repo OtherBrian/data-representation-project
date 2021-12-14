@@ -9,8 +9,8 @@
 
             <script type="text/javascript" src="scripts.js"></script>
 
-
     </head>
+
     <body>
         <ul>
             <li><a href="/home">Home</a></li>
@@ -61,14 +61,17 @@
                 </tr>
             </table>
         </div>
+
         <div id="customer-display">
             <h2>Customers</h2>
             <button onClick="showCustomerCreate()">Create</button>
+
             <div id="filterCustomerButtons">
                 <p>Filter customers by City: <input type="text" id="filterCity"> <button onclick="filterCustomerTableCity()">Filter City</button></p>
                 <p>Filter customers by Country: <input type="text" id="filterCountry"> <button onclick="filterCustomerTableCountry()">Filter Country</button></p>
                     <button onclick="populateCustomerTable()" id="showAllButton" style="display:none">Show All</button>
                 </div>
+                
             <table id="customerTable" class="customer">
                 <tr>
                     <th>Customer ID</th><th>First Name</th><th>Last Name</th><th>Street Address</th><th>City</th><th>Country</th><th>Email</th><th></th><th></th>

@@ -20,9 +20,11 @@
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
         
         <div id="product-display">
+
             <h1>Products</h2>
-            <p>Only show products below € <input type="number" id="filterPrice" step="0.01"> <button onclick="filterProductTable()">Filter</button><button id="showAllButton" onclick="populateProductTable()" style="display:none">Show All</button>
-            </p>
+
+            <p>Only show products below € <input type="number" id="filterPrice" step="0.01"> <button onclick="filterProductTable()">Filter</button><button id="showAllButton" onclick="populateProductTable()" style="display:none">Show All</button></p>
+            
             <table id="productTable" class="product">
                 <tr>
                     <th>Product ID</th><th>Product Name</th><th>Price</th><th>Product Description</th><th></th>

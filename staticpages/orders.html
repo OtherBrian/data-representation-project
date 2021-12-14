@@ -4,7 +4,8 @@
 
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-            <link rel="stylesheet" type="text/css"  href="style.css">
+            
+                <link rel="stylesheet" type="text/css"  href="style.css">
     </head>
     <body>
         <ul>
@@ -16,9 +17,11 @@
           </ul>
 
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
+        
         <div>
             <button onclick="location.href = '/create-order.html';" style="display: block;">Create new order</button>
         </div>
+        
         <div id="display">
             <h1>Orders</h1>
             <table id="orderTable" class="table">
@@ -31,11 +34,11 @@
         </div>
 
         <script>
-
+            
             host = window.location.origin
 
-
             function orderDelete(thisElem){
+
                 var tableElement = document.getElementById('orderTable');
                 var rowElement = thisElem.parentNode.parentNode;
                 var index = rowElement.rowIndex;
@@ -51,11 +54,10 @@
                         console.log(error)
                     }
                 })
-
             }
 
             function populateOrderTable(){
-                //ajax getAll
+
                $.ajax({
                    url: host + '/orders',
                    method:'GET',
@@ -73,7 +75,7 @@
 
             }
             function addOrderToTable(order){
-                //console.log("working so far")
+
                 tableElem = document.getElementById("orderTable")
                 rowElem = tableElem.insertRow(-1)
                 rowElem.setAttribute("id", order.order_id)

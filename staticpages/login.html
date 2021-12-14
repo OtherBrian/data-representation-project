@@ -1,21 +1,24 @@
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css"  href="style.css">
-
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">   
     
+    <link rel="stylesheet" type="text/css"  href="style.css">
+
     <script type="text/javascript" src="scripts.js"></script>
 
 </head>
+
 <body style="background-color: #DDCA7D;">
+
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/viewproducts">Products</a></li>
         <li><a class="active" href="/login">Login</a></li>
       </ul>
+
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
         
         <p>Username <input type="text" id="username"></p> 
@@ -23,24 +26,26 @@
         <p><button onclick="login()">Login</button></p>
 
 <script>
+
     host = window.location.origin
     // Login form
     function login(){
         username = document.getElementById("username").value;
         password = document.getElementById("password").value;
+        // First get the user_id for the username
        $.ajax({
            url: host + '/users/' + username,
            method:'GET',
            datatype:'JSON',
+           // Then make the call to login, using the id and password.
+           // Totally not secure, but will work for this demonstration.
            success:function(results){
                 window.location.href = host + '/login/' + results + '/' + password
            },
            error:function (xhr,status,error){
                console.log ("error "+error +" code:"+status)
            }
-
-       })
-       
+       })    
     }
 </script>
 </body>
