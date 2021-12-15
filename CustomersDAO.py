@@ -1,4 +1,5 @@
 import mysql.connector
+# dbconfig file contains the host, user, password and database details.
 import dbconfig as cfg
 
 class CustomersDAO:
@@ -11,7 +12,7 @@ class CustomersDAO:
         self.password=cfg.mysql['password']
         self.database=cfg.mysql['database']
 
-
+    # Have to connect and close after each query, or else Pythonanywhere dies.
     def connect(self):
         self.db = mysql.connector.connect(
             host=self.host,
@@ -20,10 +21,11 @@ class CustomersDAO:
             database=self.database
             )
 
+    # Return all customers
     def allCustomers(self):
         self.connect()
         cursor = self.db.cursor()
-        sql = 'select * from customers'
+        sql = 'SELECT * FROM customers'
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
@@ -34,6 +36,7 @@ class CustomersDAO:
         self.db.close()
         return returnArray
 
+    # Return customer that matches given customer_id
     def findCustomerById(self, customer_id):
         self.connect()
         cursor = self.db.cursor()
@@ -45,6 +48,7 @@ class CustomersDAO:
         self.db.close()
         return self.convertToDict(result)
 
+    # Return all customers with given city.
     def findCustomersByCity(self, city):
         self.connect()
         cursor = self.db.cursor()
@@ -60,6 +64,7 @@ class CustomersDAO:
         self.db.close()
         return returnArray
 
+    # Return all customers with given country.
     def findCustomersByCountry(self, country):
         self.connect()
         cursor = self.db.cursor()
@@ -75,6 +80,7 @@ class CustomersDAO:
         self.db.close()
         return returnArray
 
+    # Create new customer values from the given customer.
     def create(self, customer):
         self.connect()
         cursor = self.db.cursor()
@@ -93,6 +99,7 @@ class CustomersDAO:
         self.db.close()
         return cursor.lastrowid
 
+    # Update existing customer with values from the given customer.
     def updateCustomer(self, customer):
         self.connect()
         cursor = self.db.cursor()
@@ -113,6 +120,7 @@ class CustomersDAO:
         self.db.close()
         return customer
 
+    # Delete customer with given customer_id
     def delete(self, customer_id):
         self.connect()
         cursor = self.db.cursor()
@@ -134,4 +142,5 @@ class CustomersDAO:
                 customer[colName] = value
         return customer
 
+# Instantiate CustomersDao
 customersDAO = CustomersDAO()

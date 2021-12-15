@@ -6,6 +6,7 @@ host = window.location.origin
 
 // Products Section
 
+// Shows product creation form and hides unnecessary buttons
 function showProductCreate(){
 
     document.getElementById('product-display').style.display = "none"
@@ -19,6 +20,7 @@ function showProductCreate(){
 
 }
 
+// Takes the product name and price of the selected product, and adds to the order object (above)
 function selectProduct(thisElem, order){
 
     document.getElementById('orderCreation').style.display = "block"
@@ -34,11 +36,15 @@ function selectProduct(thisElem, order){
     order.product_name = product.product_name
     order.price = product.price
     orderSummary(order)
+
+    // Once a product is selected, show the Customers table.
     populateCustomerTable()
+
     return order
 
 }
 
+// Takes the values of the selected customer, and adds to the order object (above)
 function selectCustomer(thisElem, order){
 
     document.getElementById('selectedCustomer').style.display = "block"
@@ -59,6 +65,7 @@ function selectCustomer(thisElem, order){
     return order
 }
 
+// Shows the user which product and custom is selected.
 function orderSummary(order) {
 
     document.getElementById('selectedProductName').innerHTML = order.product_name
@@ -72,6 +79,7 @@ function orderSummary(order) {
 
 }
 
+// Makes a POST call to Flask app.py. This then makes POST call to Shopify store.
 function createOrder() {
 
     $.ajax({
@@ -81,7 +89,6 @@ function createOrder() {
         dataType:"JSON",
         contentType: "application/json; charset=utf-8",
         success:function(result){
-            console.log(result)
             document.getElementById('succesfullOrder').style.display = "block"
             document.getElementById('createdOrderId').innerHTML = result
 
@@ -95,6 +102,7 @@ function createOrder() {
     })
 }
 
+// Loads the form to update the selected product, hides customer related buttons.
 function showProductUpdate(thisElem){
 
     var rowElement = thisElem.parentNode.parentNode;
@@ -110,6 +118,7 @@ function showProductUpdate(thisElem){
 
 }
 
+// Takes the values from the product selected to be updated.
 function readProductFromRow(rowElement){
 
     product = {}
@@ -123,6 +132,7 @@ function readProductFromRow(rowElement){
 
 }
 
+// Populates the update product form with the above values.
 function populateProductForm(product){
 
     var form = document.getElementById('createUpdateProductForm')
@@ -140,6 +150,7 @@ function populateProductForm(product){
     }
 }
 
+// Clears the values in the product form so that it's empty for next use.
 function clearProductForm() {
 
         var form = document.getElementById('createUpdateProductForm')
@@ -152,6 +163,7 @@ function clearProductForm() {
         form.querySelector('input[name="product_image_url"]').value = ''
 }
 
+// Makes a POST call to the app.py Flask app to create the product.
 function productCreate(){
 
     product= getProductFromForm()
@@ -175,6 +187,7 @@ function productCreate(){
 
 }
 
+// Creates product object from the values in the form, and passes to below function to do PUT call.
 function productUpdate(){
 
     product = getProductFromForm()
@@ -182,6 +195,7 @@ function productUpdate(){
 
 }
 
+// Makes a PUT call to the app.py Flask app to update the product.
 function updateProductServer(product){
 
    $.ajax({
@@ -202,6 +216,7 @@ function updateProductServer(product){
     })
 }
 
+// Uses the value entered into the filter product box as the maximum price, and does a GET request to the app.
 function filterProductTable(){
     // Gets the value set by the user in the filter box.
     filter_price = document.getElementById("filterPrice").value
@@ -229,6 +244,7 @@ function filterProductTable(){
 
 }
 
+// Makes a DELETE call to the flask app.py with the current chosen product's ID.
 function productDelete(thisElem){
 
     var tableElement = document.getElementById('productTable');
@@ -250,6 +266,7 @@ function productDelete(thisElem){
 
 }
 
+// Updates the table rows with new content.
 function updateProductTableRow(product){
 
     rowElement = document.getElementById(product.product_id)
@@ -260,6 +277,7 @@ function updateProductTableRow(product){
 
 }
 
+// Gets the product details entered into the form, and assigns them to a product object.
 function getProductFromForm(){
 
     var form = document.getElementById('createUpdateProductForm')
@@ -274,6 +292,7 @@ function getProductFromForm(){
     return product
 }
 
+// Shows the table of products, and hides any customer tables on the page.
  function showProductDisplay() {
 
         document.getElementById('product-display').style.display = "block"
@@ -282,6 +301,7 @@ function getProductFromForm(){
         document.getElementById('customer-create-update').style.display = "none"
     }
 
+// Gets the values for all of the products in the databse via a GET request to the flask app.py
 function populateProductTable(){
 
    $.ajax({
@@ -301,6 +321,36 @@ function populateProductTable(){
    document.getElementById("showAllButton").style.display = "none"
 }
 
+// Uses the value entered into the filter product box as the maximum price, and does a GET request to the app.
+// Used this method so as to show variation in API calls.
+function filterProductTable(){
+    // Gets the value set by the user in the filter box.
+    filter_price = document.getElementById("filterPrice").value
+
+   $.ajax({
+       url: host + "/products/price/" + filter_price,
+       method:'GET',
+       datatype:'JSON',
+       success:function(results){
+            for (let i = 1; i < document.getElementById("productTable").rows.length; i++){
+                document.getElementById("productTable").rows[i].innerHTML = "";
+            }
+            for (product of results){
+                 addProductToTable(product)
+            }
+            if (window.location.href.indexOf("viewproducts") > -1) {
+                document.getElementById("showAllButton").style.display = "block"
+            }
+       },
+       error:function (xhr,status,error){
+           console.log ("error "+error +" code:"+status)
+       }
+
+   })
+
+}
+
+// Fills each row of the table with the product details acquired via either of the above GET requests.
 function addProductToTable(product){
     tableElem = document.getElementById("productTable")
     rowElem = tableElem.insertRow(-1)
@@ -344,6 +394,7 @@ function addProductToTable(product){
 
 // Customers Section
 
+// Show the customer create form. Hide anything else.
 function showCustomerCreate(){
 
     document.getElementById('customer-display').style.display = "none"
@@ -359,6 +410,7 @@ function showCustomerCreate(){
 
 }
 
+// Show the custoemr update form, hide anything else.
 function showCustomerUpdate(thisElem){
 
     var rowElement = thisElem.parentNode.parentNode;
@@ -374,6 +426,7 @@ function showCustomerUpdate(thisElem){
 
 }
 
+// Get the values of the currently chosen customer.
 function readCustomerFromRow(rowElement){
     customer = {}
     customer.customer_id = rowElement.getAttribute("id");
@@ -388,6 +441,7 @@ function readCustomerFromRow(rowElement){
 
 }
 
+// Fill the customer form with the above details for updates.
 function populateCustomerForm(customer){
 
     var form = document.getElementById('createCustomerUpdateForm')
@@ -402,6 +456,7 @@ function populateCustomerForm(customer){
     form.querySelector('input[name="email"]').value = customer.email
 }
 
+// Clear all the fields in the customer form for future use.
 function clearCustomerForm() {
 
     var form = document.getElementById('createCustomerUpdateForm')
@@ -416,6 +471,7 @@ function clearCustomerForm() {
     form.querySelector('input[name="email"]').value = ''
 }
 
+// POST call to app.py Flask app to create the customer using values in the form.
 function customerCreate(){
     customer= getCustomerFromForm()
     $.ajax({
@@ -435,6 +491,7 @@ function customerCreate(){
     })
 }
 
+// Puts the values from the customer update form into a customer object, and passes to below function to perform the PUT request.
 function customerUpdate(){
 
     customer = getCustomerFromForm()
@@ -442,6 +499,7 @@ function customerUpdate(){
 
 }
 
+// Put request to Flask app.py to update the customer.
 function updateCustomerServer(customer){
 
     $.ajax({
@@ -451,7 +509,6 @@ function updateCustomerServer(customer){
         dataType: "JSON",
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            console.log(result)
             updateCustomerTableRow(customer)
             showCustomerDisplay()
             clearCustomerForm()
@@ -463,6 +520,86 @@ function updateCustomerServer(customer){
     })
 }
 
+// DELETE call to app.py Flask app to delete current customer.
+function customerDelete(thisElem){
+
+    var tableElement = document.getElementById('customerTable');
+    var rowElement = thisElem.parentNode.parentNode;
+    var index = rowElement.rowIndex;
+    customer_id = rowElement.getAttribute("id");
+
+    $.ajax({
+        url: host + "/customers/"+customer_id,
+        method:"DELETE",
+        dateType:"JSON",
+        success:function(result){
+            tableElement.deleteRow(index);
+        },
+        error:function(xhr,status,error){
+            console.log(error)
+        }
+    })
+}
+
+// Gets the details of the customer to be updated.
+function updateCustomerTableRow(customer){
+
+    rowElement = document.getElementById(customer.customer_id)
+    rowElement.cells[1].firstChild.textContent = customer.first_name
+    rowElement.cells[2].firstChild.textContent = customer.last_name
+    rowElement.cells[3].firstChild.textContent = customer.street_address
+    rowElement.cells[4].firstChild.textContent = customer.city
+    rowElement.cells[5].firstChild.textContent = customer.country
+    rowElement.cells[6].firstChild.textContent = customer.email
+}
+
+// Puts the values present in the form into a customer object.
+function getCustomerFromForm(){
+
+    var form = document.getElementById('createCustomerUpdateForm')
+
+    var customer = {}
+    customer.customer_id = form.querySelector('input[name="customer_id"]').value
+    customer.first_name = form.querySelector('input[name="first_name"]').value
+    customer.last_name = form.querySelector('input[name="last_name"]').value
+    customer.street_address = form.querySelector('input[name="street_address"]').value
+    customer.city = form.querySelector('input[name="city"]').value
+    customer.country = form.querySelector('input[name="country"]').value
+    customer.email = form.querySelector('input[name="email"]').value
+    return customer
+}
+
+// Shows the customers table, hides any product table on the page.
+function showCustomerDisplay() {
+
+    document.getElementById('customer-display').style.display = "block"
+    document.getElementById('customer-create-update').style.display = "none"
+    document.getElementById('product-display').style.display = "none"
+    document.getElementById('product-create-update').style.display = "none"
+    document.getElementById('showAllButton').style.display = "none"
+
+}
+
+// GET request to database to get values for all of the customers.
+function populateCustomerTable(){
+
+    $.ajax({
+    url: host + '/customers',
+    method:'GET',
+    datatype:'JSON',
+    success:function(results){
+            for (customer of results){
+                addCustomerToTable(customer)
+            }
+        },
+    error:function (xhr,status,error){
+        console.log ("error "+error +" code:"+status)
+    }
+    })
+    document.getElementById('showAllButton').style.display = "none"
+}
+
+// Same as above, but uses customer City as a filter on the GET request.
 function filterCustomerTableCity(){
     // Get the city entered by the user.
     filter_city = document.getElementById("filterCity").value
@@ -487,6 +624,7 @@ function filterCustomerTableCity(){
    })
 }
 
+// Same as above but uses Country as the filter criteria.
 function filterCustomerTableCountry(){
     // Get the country entered by the user.
     filter_country = document.getElementById("filterCountry").value
@@ -511,80 +649,7 @@ function filterCustomerTableCountry(){
    })
 }
 
-function customerDelete(thisElem){
-
-    var tableElement = document.getElementById('customerTable');
-    var rowElement = thisElem.parentNode.parentNode;
-    var index = rowElement.rowIndex;
-    customer_id = rowElement.getAttribute("id");
-
-    $.ajax({
-        url: host + "/customers/"+customer_id,
-        method:"DELETE",
-        dateType:"JSON",
-        success:function(result){
-            tableElement.deleteRow(index);
-        },
-        error:function(xhr,status,error){
-            console.log(error)
-        }
-    })
-}
-
-function updateCustomerTableRow(customer){
-
-    rowElement = document.getElementById(customer.customer_id)
-    rowElement.cells[1].firstChild.textContent = customer.first_name
-    rowElement.cells[2].firstChild.textContent = customer.last_name
-    rowElement.cells[3].firstChild.textContent = customer.street_address
-    rowElement.cells[4].firstChild.textContent = customer.city
-    rowElement.cells[5].firstChild.textContent = customer.country
-    rowElement.cells[6].firstChild.textContent = customer.email
-}
-
-function getCustomerFromForm(){
-
-    var form = document.getElementById('createCustomerUpdateForm')
-
-    var customer = {}
-    customer.customer_id = form.querySelector('input[name="customer_id"]').value
-    customer.first_name = form.querySelector('input[name="first_name"]').value
-    customer.last_name = form.querySelector('input[name="last_name"]').value
-    customer.street_address = form.querySelector('input[name="street_address"]').value
-    customer.city = form.querySelector('input[name="city"]').value
-    customer.country = form.querySelector('input[name="country"]').value
-    customer.email = form.querySelector('input[name="email"]').value
-    return customer
-}
-
-function showCustomerDisplay() {
-
-    document.getElementById('customer-display').style.display = "block"
-    document.getElementById('customer-create-update').style.display = "none"
-    document.getElementById('product-display').style.display = "none"
-    document.getElementById('product-create-update').style.display = "none"
-    document.getElementById('showAllButton').style.display = "none"
-
-}
-
-function populateCustomerTable(){
-
-    $.ajax({
-    url: host + '/customers',
-    method:'GET',
-    datatype:'JSON',
-    success:function(results){
-            for (customer of results){
-                addCustomerToTable(customer)
-            }
-        },
-    error:function (xhr,status,error){
-        console.log ("error "+error +" code:"+status)
-    }
-    })
-    document.getElementById('showAllButton').style.display = "none"
-}
-
+// Fills each row of the table with the customer details acquired via either of the above GET requests.
 function addCustomerToTable(customer){
 
     tableElem = document.getElementById("customerTable")

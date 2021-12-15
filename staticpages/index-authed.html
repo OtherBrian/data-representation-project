@@ -1,11 +1,11 @@
 <html>
     <head>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             
-            <link rel="stylesheet" type="text/css"  href="style.css">
+        <link rel="stylesheet" type="text/css"  href="style.css">
 
     </head>
 
@@ -17,28 +17,42 @@
             <li><a href="/vieworders">Orders</a></li>
             <li><a href="create-order">Create Order</a></li>
             <li><a href="/logout">Logout</a></li>
-          </ul>
+        </ul>
 
-          <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
+        <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
 
-          <h1>Congratulations! You are now logged in!</h1>
+        <h1>Congratulations! You are now logged in!</h1>
 
-          <p>You may have noticed that the navigation bar has changed, and you have a few more options here. The intention is for this area to the be the admin of the store, where users can manage the products, customers and orders.
-              br> Let's go through them one by one.<br></p>
+        <p>
+            You may have noticed that the navigation bar has changed, and you have a few more options here.<br>
+            The intention is for this area to the be the admin of the store, where users can manage the products, customers and orders.<br>
+            Let's introduce each section one by one.<br>
+        </p>
 
-          <h3>The Customers Page</h3>
-          <p>Here you'll be able to view, create, update and delete customers from the store. This is all done through the use of AJAX, and performs API calls on a MySql database.</p>
+        <h3>The Customers Page</h3>
+        <p>
+            Here you'll be able to view, create, update and delete customers from the store.<br>
+            This is all done through the use of AJAX, and performs API calls to a MySql database that holds the customer data.
+        </p>
 
-          <h3>The Orders Page</h3>
-          <p>Here you'll be able to view and delete the orders on the store. This is all done through the use of AJAX, however these orders are not stored on a local databsase.<br>
-              They are in fact being served from Shopify, the popular ecommerce platform. I have created a dummy Shopify store to which I can make API calls and create what are known as Draft Orders via the Draft Order API.<br>
-              If you're curious, I had to use the Draft Order API rather than the usual Orders API because my products are not hosted on Shopify. The Orders API requires Shopify Product IDs, which my products do not have, so I've passed them as custom products to the Draft Orders API.<br>
+        <h3>The Orders Page</h3>
+        <p>
+            Here you'll be able to view and delete the orders on the store.<br>
+            This is all done through the use of AJAX, however these orders are not stored on a local database.<br>
+            They are in fact being served from Shopify, the popular ecommerce platform. I have created a dummy Shopify store to which I can make API calls and create what are known as Draft Orders via the Draft Order API.<br><br>
+            If you're curious, I had to use the Draft Order API rather than the usual Orders API because my products are not hosted on Shopify. The Orders API requires Shopify Product IDs, which my products do not have, so I've passed them as custom products to the Draft Orders API.<br>
+        </p>
 
-            <h3>The Create Order Page</h3>
-            <p>This page is a combination of the Products and Customers pages from before. The user can first select a product (they can also create, update and delete existing products here), then select a customer.<br>
-            Once they are happy with their selections, they can hit the Create Order button, and it'll make a POST request to my Shopify store's Draft Orders API and hopefully create the order. The user can then return to the Orders Page and see it there.</p>
+        <h3>The Create Order Page</h3>
+        <p>
+            This page is a combination of the Products and Customers pages from before.<br>
+            The user can first select a product (they can also create, update and delete existing products here), then select a customer.<br>
+            Once they are happy with their selections, they can hit the Create Order button, and it'll make a POST request to my Shopify store's Draft Orders API and hopefully create the order. The user can then return to the Orders Page and see the order there.
+        </p>
 
-            <h3>Logout</h3>
-            <p>This will simply log the user out and return them to the index page for anonymous users.</p>
+        <h3>Logout</h3>
+        <p>
+            This will simply log the user out and return them to the index page for anonymous users.
+        </p>
     </body>
 </html>

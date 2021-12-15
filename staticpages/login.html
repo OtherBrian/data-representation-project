@@ -22,12 +22,21 @@
         <div id="logoContainer"><img src="https://raw.githubusercontent.com/OtherBrian/data-representation-project/main/images/logo.png" id="logo"></div>
         
         <p>Username <input type="text" id="username"></p> 
-        <p>Password <input type="text" id="password"></p> 
+        <p>Password <input type="password" id="password"></p> 
         <p><button onclick="login()">Login</button></p>
+
+        <div>
+            <h3 onmouseover="showClue()" onmouseout="hideClue()">Hover here for login details</h3>
+            <!--"hint" ID is used for CSS styling - namely change the display-->
+            <p id="hint" style="display: none;">Username: admin<br>
+            <br>Password: iamtheadmin<br>
+            <br>These are case sensitive!</p>
+        </div>
 
 <script>
 
     host = window.location.origin
+
     // Login form
     function login(){
         username = document.getElementById("username").value;
@@ -47,6 +56,16 @@
            }
        })    
     }
-</script>
+
+    // showClue() changes the display of the "hint" ID to "block", thus making it visible.
+    function showClue(){
+        document.getElementById("hint").style.display = "block";
+    }
+
+    // hideClue() changes the display of the "hint" ID to "none", thus making it invisible.
+    function hideClue(){
+        document.getElementById("hint").style.display = "none";
+    }
+    </script>
 </body>
 </html>

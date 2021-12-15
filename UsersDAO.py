@@ -1,4 +1,5 @@
 import mysql.connector
+# dbconfig file contains the host, user, password and database details.
 import dbconfig as cfg
 
 class UsersDAO:
@@ -10,6 +11,7 @@ class UsersDAO:
         self.password=cfg.mysql['password']
         self.database=cfg.mysql['database']
 
+    # Have to connect and close after each query, or else Pythonanywhere dies.
     def connect(self):
         self.db = mysql.connector.connect(
         host=self.host,
@@ -18,6 +20,7 @@ class UsersDAO:
         database=self.database
         )
 
+    # Return all users.
     def allUsers(self):
         self.connect()
         cursor = self.db.cursor()
@@ -32,7 +35,7 @@ class UsersDAO:
         self.db.close()
         return returnDict
 
-# Just returning the user ID that matches a particular username
+    # Just returning the user ID that matches a particular username
     def getUserByUsername(self, username):
         self.connect()
         cursor = self.db.cursor()
@@ -54,5 +57,6 @@ class UsersDAO:
                 value = result[i]
                 user[colName] = value
         return user
-
+        
+# Instantiate UsersDAO
 usersDAO = UsersDAO()
