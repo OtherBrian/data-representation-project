@@ -9,7 +9,7 @@ The theme of this project is a simple web app that allows everyone to view the p
 
 The app is built with Flask Python library, and the various html pages use AJAX to interact with the main Flask app via API calls. The products and customers data are both held on MySQL databases which were created by myself with dummy data (as you'll no doubt notice). The orders data is created and received from Shopify's Draft Orders API on a dummy store that I have created especially for this project. 
 
-** Note: This means that a secret API key is required in order for this app to fully work. If you are looking to clone this repository and have it run locally, then create a new Shopify store and edit the URLs in the Orders section of app.py. For the purposes of marking this assignment, I will be providing my teacher with this API key so that they themselves can confirm functionality.
+**Note: This means that a secret API key is required in order for this app to fully work. If you are looking to clone this repository and have it run locally, then create a new Shopify store and edit the URLs in the Orders section of app.py. For the purposes of marking this assignment, I will be providing my teacher with this API key so that they themselves can confirm functionality.
 
 ## Repository Contents
 
